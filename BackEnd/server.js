@@ -30,7 +30,7 @@ class Server {
     }
 
     routes() {
-        this.app.use('/api/users', UserRoutes);
+        this.app.use('/api/user', UserRoutes);
     }
 
     start() {
