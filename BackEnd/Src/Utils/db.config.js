@@ -12,7 +12,7 @@ class Database {
         try {
             await this.sequelize.authenticate();
         } catch (error) {
-            console.error('Impossible de se connecter à la base de donnée', error);
+            throw new Error('Impossible de se connecter à la base de donnée', error);
         }
     }
 
