@@ -1,9 +1,14 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, DATE } = require('sequelize');
 
 class User extends Model {}
 
 module.exports = (sequelize) => {
     User.init({
+        Id_user: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         Nom: {
             type: DataTypes.STRING(50),
             allowNull: false
@@ -30,7 +35,9 @@ module.exports = (sequelize) => {
         }
     }, {
         sequelize,
-        modelName: 'User'
+        modelName: 'user',
+        tableName: 'user',
+        timestamps: false,
     });
 
     return User;
