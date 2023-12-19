@@ -1,11 +1,11 @@
-const { User } = require("../Models/index");
+const { User, Role } = require("../Models/index");
 const bcrypt = require("bcrypt");
 
 class UserController {
-    // Create
+    // Create user with roles
   static async createUser(req, res) {
     try {
-      const { Nom, Prenom, Email, Mdp } = req.body;
+      const { Nom, Prenom, Email, Mdp, Id_role } = req.body;
 
       if (!isValidEmail(Email) || !isValidPassword(Mdp)) {
         return res.status(400).json({ error: "Données invalides" });
@@ -13,13 +13,17 @@ class UserController {
 
       const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUND) || 10;
       const hashedPassword = await bcrypt.hash(Mdp, saltRounds);
-
+  
       const newUser = await User.create({
-        Email,
-        Mdp: hashedPassword,
         Nom,
         Prenom,
+        Email,
+        Mdp: hashedPassword,
+        Id_role
+      }, {
+        fields: ["Nom", "Prenom", "Email", "Mdp", "Id_role"]
       });
+
       res.status(201).json({ ...newUser.toJSON(), Mdp: undefined });
     } catch (error) {
       res.status(500).json({ error: "Erreur serveur" });
@@ -28,7 +32,16 @@ class UserController {
     // Get
   static async getAllUsers(_, res) {
     try {
-      const users = await User.findAll({ attributes: { exclude: ["Mdp"] } });
+      const users = await User.findAll({ 
+        attributes: { 
+          exclude: ["Mdp"], 
+          include: ['Nom', 'Prenom', 'Email', 'Id_role'],
+        },
+        include: [{
+          model: Role,
+          attributes: ['Nom']
+        }]
+      });
       res.status(200).json(users);
     } catch (error) {
       res.status(500).json({ error: "Erreur serveur" });
@@ -53,7 +66,7 @@ class UserController {
     // Update
   static async updateUser(req, res) {
     try {
-      const { Email, Mdp } = req.body;
+      const { Email, Mdp, Id_role } = req.body;
 
       if ((Email && !isValidEmail(Email)) || (Mdp && !isValidPassword(Mdp))) {
         return res.status(400).json({ error: "Données invalides" });
@@ -68,13 +81,30 @@ class UserController {
         );
       }
 
+      if (Email) {
+        updateData.Email = Email;
+      }
+
+      if (Id_role) {
+        // Vérification si le role existe avant de l'assigner
+        const roleExists = await Role.findByPk(Id_role);
+        if (!roleExists) {
+          return res.status(400).json({ error: "Rôle non valide"});
+        }
+        updateData.Id_role = Id_role;
+      }
+
       const [updated] = await User.update(updateData, {
-        where: { id: req.params.id },
+        where: { Id_user: req.params.id },
       });
 
       if (updated) {
         const updatedUser = await User.findByPk(req.params.id, {
           attributes: { exclude: ["Mdp"] },
+          include: [{
+            model: Role,
+            attributes: ['Nom']
+          }]
         });
         res.status(200).json(updatedUser);
       } else {
@@ -87,7 +117,7 @@ class UserController {
     // Delete
   static async deleteUser(req, res) {
     try {
-      const deleted = await User.destroy({ where: { id: req.params.id } });
+      const deleted = await User.destroy({ where: { Id_user: req.params.id } });
 
       if (deleted) {
         res.status(204).send();
