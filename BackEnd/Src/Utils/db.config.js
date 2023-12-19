@@ -8,11 +8,19 @@ class Database {
         });
     }
 
-    connect() {
-        return this.sequelize.authenticate()
+    async connect() {
+        try {
+            await this.sequelize.authenticate();
+        } catch (error) {
+            console.error('Impossible de se connecter à la base de donnée', error);
+        }
+    }
+
+    getSequelizeInstance() {
+        return this.sequelize;
     }
 }
 
 // Export de l'instance unique
-
-module.exports = Database;
+const db = new Database();
+module.exports = db;
