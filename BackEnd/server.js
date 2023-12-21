@@ -9,6 +9,7 @@ const database = require('./Src/Utils/db.config');
 // Import des modules de routage
 const UserRoutes = require('./Src/Routes/UserRoutes');
 const AuthRoutes = require('./Src/Routes/AuthRoutes');
+const ServiceRoutes = require('./Src/Routes/ServiceRoutes');
 
 // Classe Server qui encapsule toute la configuration et la logique du serveur Express
 class Server {
@@ -33,6 +34,7 @@ class Server {
     routes() {
         this.app.use('/api/user', UserRoutes);
         this.app.use('/api/auth', AuthRoutes);
+        this.app.use('/api/service', ServiceRoutes);
     }
 
     start() {
