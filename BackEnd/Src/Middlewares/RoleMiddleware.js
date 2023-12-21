@@ -3,7 +3,7 @@ const { Role } = require('../Models/index');
 class RoleMiddleware {
     static async isAdmin(req, res, next) {
         try {
-            const userRole = await Role.findByPk(req.user.Id_role);
+            const userRole = await Role.findByPk(req.user.role);
             if (userRole && userRole.Nom === 'Administrateur') {
                 next();
             } else {
