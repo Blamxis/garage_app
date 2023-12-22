@@ -10,6 +10,7 @@ const database = require('./Src/Utils/db.config');
 const UserRoutes = require('./Src/Routes/UserRoutes');
 const AuthRoutes = require('./Src/Routes/AuthRoutes');
 const ServiceRoutes = require('./Src/Routes/ServiceRoutes');
+const AvisRoutes = require('./Src/Routes/AvisRoutes');
 
 // Classe Server qui encapsule toute la configuration et la logique du serveur Express
 class Server {
@@ -35,6 +36,7 @@ class Server {
         this.app.use('/api/user', UserRoutes);
         this.app.use('/api/auth', AuthRoutes);
         this.app.use('/api/service', ServiceRoutes);
+        this.app.use('/api/', AvisRoutes);
     }
 
     start() {
