@@ -16,7 +16,8 @@ class RoleMiddleware {
 
     static async isEmployee(req, res, next) {
         try {
-            const userRole = await Role.findByPk(req.user.Id_role);
+            const userRole = await Role.findByPk(req.user.role);
+
             if (userRole && userRole.Nom === 'Employé') {
                 next();
             } else {

@@ -10,11 +10,11 @@ class ServiceRoutes {
     }
 
     initRoutes() {
-        this.router.post('/services', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.createService);
-        this.router.get('/services', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.getAllServices);
-        this.router.get('/services/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.getServiceById);
-        this.router.put('/services/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.updateService);
-        this.router.delete('/services/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.deleteService);
+        this.router.post('/admin/services', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.createService);
+        this.router.get('/admin/services', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.getAllServices);
+        this.router.get('/admin/services/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.getServiceById);
+        this.router.put('/admin/services/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.updateService);
+        this.router.delete('/admin/services/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.deleteService);
     }
 
     getRouter() {

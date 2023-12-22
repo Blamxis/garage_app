@@ -11,11 +11,11 @@ class UserRoutes {
 
     initRoutes() {
         // Seul l'admin peut faire un CRUD des users
-        this.router.post('/users', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.createUser);
-        this.router.get('/users', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.getAllUsers);
-        this.router.get('/users/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.getUserById);
-        this.router.put('/users/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.updateUser);
-        this.router.delete('/users/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.deleteUser);
+        this.router.post('/admin/users', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.createUser);
+        this.router.get('/admin/users', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.getAllUsers);
+        this.router.get('/admin/users/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.getUserById);
+        this.router.put('/admin/users/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.updateUser);
+        this.router.delete('/admin/users/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], UserController.deleteUser);
     }
 
     getRouter() {
