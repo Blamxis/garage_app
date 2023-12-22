@@ -11,6 +11,8 @@ const UserRoutes = require('./Src/Routes/UserRoutes');
 const AuthRoutes = require('./Src/Routes/AuthRoutes');
 const ServiceRoutes = require('./Src/Routes/ServiceRoutes');
 const AvisRoutes = require('./Src/Routes/AvisRoutes');
+const JoursRoutes = require('./Src/Routes/JoursRoutes');
+const HoraireRoutes = require('./Src/Routes/HoraireRoutes');
 
 // Classe Server qui encapsule toute la configuration et la logique du serveur Express
 class Server {
@@ -35,8 +37,10 @@ class Server {
     routes() {
         this.app.use('/api/user', UserRoutes);
         this.app.use('/api/auth', AuthRoutes);
-        this.app.use('/api/service', ServiceRoutes);
+        this.app.use('/api/', ServiceRoutes);
         this.app.use('/api/', AvisRoutes);
+        this.app.use('/api/', JoursRoutes);
+        this.app.use('/api/', HoraireRoutes);
     }
 
     start() {
