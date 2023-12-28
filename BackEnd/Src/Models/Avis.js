@@ -23,16 +23,15 @@ module.exports = (sequelize) => {
         },
         Date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         Note: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
         Status: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.ENUM('en attente', 'approuvé', 'rejeté'),
             allowNull: false,
-            values: ['en attente', 'approuvé', 'rejeté'],
             defaultValue: 'en attente'
         },
         Id_user: {
