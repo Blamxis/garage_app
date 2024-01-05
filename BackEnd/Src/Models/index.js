@@ -7,6 +7,7 @@ const Avis = require('./Avis')(sequelize);
 const Jours = require('./Jours')(sequelize);
 const Horaire = require('./Horaire')(sequelize);
 const Message = require('./Message')(sequelize);
+const Marque = require('./Marque')(sequelize);
 
 
 // Définition des associations
@@ -35,5 +36,6 @@ module.exports = {
     Avis,
     Jours,
     Horaire,
-    Message
+    Message,
+    Marque
 };
