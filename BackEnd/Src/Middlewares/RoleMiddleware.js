@@ -27,6 +27,20 @@ class RoleMiddleware {
             res.status(500).send('Erreur Serveur');
         }
     }
+
+    static async isEmployeeOrAdmin(req, res, next) {
+        try {
+            const userRole = await Role.findByPk(req.user.role);
+            if (userRole && (userRole.Nom === 'Administrateur' || userRole.Nom === 'Employé')) {
+                next();
+            } else {
+                res.status(403).send('Accès refusé. Requis: Rôle Administrateur ou Employé');
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Erreur Serveur');
+        }
+    }
 }
 
 module.exports = RoleMiddleware;
