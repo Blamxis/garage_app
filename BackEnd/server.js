@@ -16,6 +16,7 @@ const HoraireRoutes = require('./Src/Routes/HoraireRoutes');
 const MessageRoutes = require('./Src/Routes/MessageRoutes');
 const MarqueRoutes = require('./Src/Routes/MarqueRoutes');
 const ModeleRoutes = require('./Src/Routes/ModeleRoutes');
+const VoitureRoutes = require('./Src/Routes/VoitureRoutes');
 
 // Classe Server qui encapsule toute la configuration et la logique du serveur Express
 class Server {
@@ -47,6 +48,7 @@ class Server {
         this.app.use('/api/', MessageRoutes);
         this.app.use('/api/', MarqueRoutes);
         this.app.use('/api/', ModeleRoutes);
+        this.app.use('/api/', VoitureRoutes);
     }
 
     start() {
