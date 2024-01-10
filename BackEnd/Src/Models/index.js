@@ -8,6 +8,7 @@ const Jours = require('./Jours')(sequelize);
 const Horaire = require('./Horaire')(sequelize);
 const Message = require('./Message')(sequelize);
 const Marque = require('./Marque')(sequelize);
+const Modele = require('./Modele')(sequelize);
 
 
 // Définition des associations
@@ -29,6 +30,9 @@ Horaire.belongsTo(Jours, { foreignKey: 'Id_jours' });
 User.hasMany(Message, { foreignKey: 'Id_user' });
 Message.belongsTo(User, { foreignKey: 'Id_user' });
 
+Marque.hasMany(Modele, { foreignKey: 'Id_marques' });
+Modele.belongsTo(Marque, { foreignKey: 'Id_marques' });
+
 module.exports = {
     User,
     Role,
@@ -37,5 +41,6 @@ module.exports = {
     Jours,
     Horaire,
     Message,
-    Marque
+    Marque,
+    Modele
 };
