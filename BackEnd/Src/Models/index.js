@@ -10,6 +10,7 @@ const Message = require('./Message')(sequelize);
 const Marque = require('./Marque')(sequelize);
 const Modele = require('./Modele')(sequelize);
 const Voiture = require('./Voiture')(sequelize);
+const Images = require('./Images')(sequelize);
 
 // Définition des associations
 User.belongsTo(Role, { foreignKey: 'Id_role' });
@@ -33,8 +34,11 @@ Message.belongsTo(User, { foreignKey: 'Id_user' });
 Marque.hasMany(Modele, { foreignKey: 'Id_marques' });
 Modele.belongsTo(Marque, { foreignKey: 'Id_marques' });
 
-Voiture.belongsTo(Modele, {foreignKey: 'Id_modeles' });
-Modele.hasMany(Voiture, {foreignKey: 'Id_modeles' });
+Voiture.belongsTo(Modele, { foreignKey: 'Id_modeles' });
+Modele.hasMany(Voiture, { foreignKey: 'Id_modeles' });
+
+Images.belongsTo(Voiture, { foreignKey : 'Id_voiture' });
+Voiture.hasMany(Images, { foreignKey: 'Id_voiture'} );
 
 module.exports = {
     User,
@@ -46,5 +50,6 @@ module.exports = {
     Message,
     Marque,
     Modele,
-    Voiture
+    Voiture,
+    Images
 };
