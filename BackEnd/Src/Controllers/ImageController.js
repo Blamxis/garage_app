@@ -1,5 +1,5 @@
 const fs = require('fs');
-const fsPromises = fs.promises;
+const fsp = require('fs/promises');
 const imageUploader = require('../Middlewares/ImageUploader'); 
 const { Images } = require('../Models/index');
 const mime = require('mime-types');
@@ -92,23 +92,29 @@ class ImageController {
                 return res.status(404).send('Image non trouvée');
             }
     
-            // chemin du fichier et supprimer
             const filePath = `Public/Uploads/${image.Nom}`;
-            try {
-                await fs.unlink(filePath);
-            } catch (err) {
-                console.error('Erreur lors de la suppression du fichier:', err);
-            }
-    
-            // supprimez l'entrée de la base de données
+            
+            // On supprime en bdd en premier
             await Images.destroy({ where: { Id_images: req.params.id } });
     
-            res.send('Image supprimée avec succès');
+            // On vérifie si le fichier existe avant de le supr
+            if (fs.existsSync(filePath)) {
+                try {
+                    await fsp.unlink(filePath);
+                    res.send('Image supprimée avec succès');
+                } catch (err) {
+                    console.error('Erreur lors de la suppression du fichier:', err);
+                    res.status(500).send('Erreur lors de la suppression du fichier');
+                }
+            } else {
+                res.status(404).send('Fichier non trouvé');
+            }
         } catch (error) {
             console.error(error);
             res.status(500).send(error.message);
         }
     }
+    
 }
 
 module.exports = new ImageController();
