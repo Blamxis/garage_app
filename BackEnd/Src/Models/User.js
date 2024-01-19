@@ -31,11 +31,10 @@ module.exports = (sequelize) => {
         },
         Id_role: {
             type: DataTypes.INTEGER
-            // La référence à 'Roles' sera gérée dans 'index.js'
         }
     }, {
         sequelize,
-        modelName: 'user',
+        modelName: 'User',
         tableName: 'user',
         timestamps: false,
     });
