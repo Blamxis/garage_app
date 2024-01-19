@@ -13,6 +13,7 @@ const Voiture = require('./Voiture')(sequelize);
 const Images = require('./Images')(sequelize);
 const EquipementOptions = require('./EquipementOptions')(sequelize);
 const VoitureEquipements = require('./VoitureEquipements')(sequelize);
+const Annonce = require('./Annonce')(sequelize);
 
 // Définition des associations
 User.belongsTo(Role, { foreignKey: 'Id_role' });
@@ -51,6 +52,12 @@ Voiture.hasMany(VoitureEquipements, { foreignKey: 'Id_voiture' });
 VoitureEquipements.belongsTo(EquipementOptions, { foreignKey: 'Id_options' });
 EquipementOptions.hasMany(VoitureEquipements, { foreignKey: 'Id_options' });
 
+Annonce.belongsTo(Voiture, { foreignKey: 'Id_voiture' });
+Annonce.belongsTo(User, { foreignKey: 'Id_user' });
+
+Voiture.hasOne(Annonce, { foreignKey: 'Id_voiture' });
+User.hasMany(Annonce, { foreignKey: 'Id_User' });
+
 module.exports = {
     User,
     Role,
@@ -64,5 +71,6 @@ module.exports = {
     Voiture,
     Images,
     EquipementOptions,
-    VoitureEquipements
+    VoitureEquipements,
+    Annonce
 };
