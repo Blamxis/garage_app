@@ -18,6 +18,8 @@ const MarqueRoutes = require('./Src/Routes/MarqueRoutes');
 const ModeleRoutes = require('./Src/Routes/ModeleRoutes');
 const VoitureRoutes = require('./Src/Routes/VoitureRoutes');
 const ImageRoutes = require('./Src/Routes/ImageRoutes');
+const EquipementOptionsRoutes = require('./Src/Routes/EquipementOptionsRoutes');
+const VoitureEquipementsRoutes = require('./Src/Routes/VoitureEquipementsRoutes');
 
 // Classe Server qui encapsule toute la configuration et la logique du serveur Express
 class Server {
@@ -51,6 +53,8 @@ class Server {
         this.app.use('/api/', ModeleRoutes);
         this.app.use('/api/', VoitureRoutes);
         this.app.use('/api/', ImageRoutes);
+        this.app.use('/api/', EquipementOptionsRoutes);
+        this.app.use('/api/', VoitureEquipementsRoutes);
     }
 
     start() {
