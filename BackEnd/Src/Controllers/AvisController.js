@@ -48,6 +48,21 @@ class AvisController {
     }
   }
 
+  // Récupérer tous les avis "Approuvé"
+  static async getAllApprovedAvis(_, res) {
+    try {
+      const avisApprouves = await Avis.findAll({
+        where: { Status: 'approuvé' }
+      });
+      if (avisApprouves.length === 0) {
+        return res.status(200).json({ message: "Aucun avis approuvé pour le moment" });
+      }
+      res.status(200).json(avisApprouves);
+    } catch (error) {
+      res.status(500).json({ error: "Erreur serveur" });
+    }
+  }
+
   // Récupérer un avis par son ID
   static async getAvisById(req, res) {
     const { id } = req.params;
