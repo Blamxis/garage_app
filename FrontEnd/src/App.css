@@ -1,0 +1,124 @@
+/* Style Background */
+
+.background-section {
+    position: relative;
+    height: 100vh; 
+    background-size: cover;
+    background-position: center;
+  }
+
+  .background-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255,90,0,0.20);
+    mix-blend-mode: color-burn;
+    z-index: 1;
+  }
+  
+  .centered-logo {
+    position: absolute;
+    top: 20%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    z-index: 1;
+  }
+  
+  .scroll-button {
+    position: absolute;
+    bottom: 130px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    padding: 30px 30px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: none;
+    backdrop-filter: 'blur(10px)';
+    z-index: 2;
+  }
+
+  .scroll-button .arrow-down {
+    display: inline-block;
+    width: 0.8em;  
+    height: 0.8em; 
+    border-right: 4px solid currentColor; 
+    border-bottom: 4px solid currentColor;
+    transform: rotate(45deg);
+    margin-left: 1px;
+    color: #E68269;
+  }
+
+  /* Style Section 1 about */
+  
+  .about {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem;
+    background: beige;
+  }
+  
+  .content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .image-section {
+    text-align: center;
+  }
+  
+  .image-section img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #E68269;
+  }
+
+  .content-wrapper h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .text-section {
+    text-align: justify;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    letter-spacing: -0.05rem;
+  }
+
+  /* Style section 2 préstations */
+
+  .services-section {
+    display: flex;
+    flex-direction: column;
+    color: beige;
+    background-color: #5F4D52;
+    padding: 2em;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .services-section h2 {
+    color: #E68269;
+    text-align: center;
+    font-size: 1.5em; 
+    margin-bottom: 1em;
+    letter-spacing: 0.1em;
+  }
+  
+  .services-section h3 {
+    color: #E68269; 
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: center;
+  }
+  
+  .services-section p {
+    line-height: 1.6;
+    margin-bottom: 1em;
+    text-align: justify;
+    letter-spacing: -0.05em;
+  }
+  
