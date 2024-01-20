@@ -11,6 +11,10 @@ class AvisRoutes {
 
     initRoutes() {
         this.router.post('/avis', AvisController.createAvis);
+
+        // Route pour récupérer les avis approuvés pour le front
+        this.router.get('/avis/approved', AvisController.getAllApprovedAvis);
+
         // Routes disponible uniquement pour admin
         this.router.get('/admin/avis', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], AvisController.getAllAvis);
         this.router.get('/admin/avis/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], AvisController.getAvisById);
