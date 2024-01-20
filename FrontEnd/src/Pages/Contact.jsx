@@ -1,0 +1,12 @@
+import CustomNavbar from "../Components/Navbar";
+
+const Contact = () => {
+    return (
+      <div>
+        <CustomNavbar />
+        <h1>Page de Contact</h1>
+      </div>
+    );
+  };
+  
+  export default Contact;

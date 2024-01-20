@@ -1,0 +1,12 @@
+import CustomNavbar from "../Components/Navbar";
+
+const Carrosserie = () => {
+  return (
+    <div>
+      <CustomNavbar />
+      <h1>Page de Carrosserie</h1>
+    </div>
+  );
+};
+
+export default Carrosserie;
