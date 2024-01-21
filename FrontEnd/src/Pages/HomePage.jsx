@@ -109,7 +109,7 @@ const HomePage = () => {
         <h2> - NOUS CONTACTER - </h2>
         <div className="contact-infos">
           <p>Adresse : 391 Rue-Straed Jean-Marie Tjibaou, Lanester</p>
-          <p className="phone">01.02.03.4.05</p>
+          <p className="phone">01.02.03.04.05</p>
           <p className="infos-phone">Service et appel gratuits</p>
         </div>
       </section>
