@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* Style Navbar Component */
 
 .custom-navbar {
@@ -40,3 +46,130 @@
     background-color: #E68269; 
     color: black;
 }
+
+/* Style Avis */
+
+.testimonial {
+    background-color: #5F4D52;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+  }
+  
+  .testimonial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #E68269;
+  }
+  
+  .testimonial-name {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .testimonial-rating {
+    color: #ffcc00;
+  }
+  
+  .star {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  
+  .testimonial-description {
+    font-size: 1em;
+    color: #FAF5EC;
+    margin: 0;
+  }
+  
+  .testimonial-date {
+    font-size: 0.8em;
+    color: #FAF5EC;
+    margin-top: 10px;
+    text-align: right;
+  }
+
+  /* Style Horaire Composant */
+
+  /* CSS pour reproduire le style de l'image */
+
+/* CSS pour reproduire le style de l'image pour les versions mobiles */
+
+.horaires-list li {
+  border-bottom: 2px solid #E68269;
+  padding-bottom: 2px;
+  margin-bottom: 10px;
+}
+
+.container {
+  background-color: #5F4D52;
+  border: 1px solid #E68269;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #FAF5EC;
+}
+
+.description {
+  font-size: 18px;
+  color: #E68269;
+  text-align: start;
+}
+
+
+/* STyle Footer */
+
+.footer {
+  background-color: #5F4D52;
+  color: #FAF5EC;
+  padding: 10px 0;
+}
+
+.footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer .footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer .left {
+  text-align: left;
+}
+
+.footer .right {
+  text-align: right;
+}
+
+/* Pour le lien "Mentions Légales" si nécessaire */
+.footer .right a {
+  color: #FAF5EC;
+  text-decoration: none;
+}
+
+
+
