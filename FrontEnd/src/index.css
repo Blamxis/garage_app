@@ -172,4 +172,55 @@
 }
 
 
+/* Style Form */
+
+.login-form {
+  background-color: #5F4D52; /* Couleur de fond du formulaire */
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(223, 201, 201, 0.2); /* Ombre portée pour donner du relief */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centrer verticalement */
+  gap: 15px;
+  width: 100%;
+  max-width: 1400px;
+  height: auto; /* Hauteur automatique */
+  margin: 10px auto; /* Centrer horizontalement et ajouter des marges */
+}
+
+.login-form h2 {
+  color: #fff; /* Couleur du texte du titre */
+  margin-bottom: 20px; /* Espace sous le titre */
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px; /* Espace entre les champs de texte */
+  font-size: 16px; /* Taille de la police pour les champs de texte */
+}
+
+.login-form input::placeholder {
+  color: #A5A58D; /* Couleur du texte placeholder */
+}
+
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #B5838D; /* Couleur de fond du bouton */
+  color: #fff; /* Couleur du texte du bouton */
+  font-size: 16px; /* Taille de la police du bouton */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transition pour l'effet de survol */
+}
+
+.login-form button:hover {
+  background-color: #9D6975; /* Couleur de fond du bouton au survol */
+}
+
 
