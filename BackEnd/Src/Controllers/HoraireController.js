@@ -1,20 +1,23 @@
-const { Horaire } = require("../Models/index");
+const { Horaire, Jours } = require("../Models/index");
 
 class HoraireController {
+
+  // Créer un nouvel horaire
   static async createHoraire(req, res) {
     try {
-      const { Horaire_ouverture, Horaire_fermeture, Id_jours } = req.body;
+      const { Horaire_ouverture, Horaire_fermeture, Horaire_ouverture_aprem, Horaire_fermeture_aprem, Id_jours } = req.body;
 
-      // Validation des données
       if (!Horaire_ouverture || !Horaire_fermeture || !Id_jours) {
+        console.log(req.body);
         return res.status(400).json({ error: "Tous les champs sont requis" });
       }
 
-      // Création de l'horaire
       const newHoraire = await Horaire.create({
         Horaire_ouverture,
         Horaire_fermeture,
-        Id_jours,
+        Horaire_ouverture_aprem,
+        Horaire_fermeture_aprem,
+        Id_jours
       });
 
       res.status(201).json(newHoraire);
@@ -24,9 +27,25 @@ class HoraireController {
     }
   }
 
+  // Récupérer tous les horaires
   static async getAllHoraires(req, res) {
     try {
-      const horaires = await Horaire.findAll();
+      const horaires = await Horaire.findAll({
+        include: [Jours]
+      });
+
+      const dimanchePresent = horaires.some((horaire) => horaire.Id_jours === 'Dimanche');
+
+      if (!dimanchePresent) {
+        horaires.push({
+          Id_jours: 'Dimanche',
+          Horaire_ouverture: 'Fermé',
+          Horaire_fermeture: 'Fermé',
+          Horaire_ouverture_aprem: 'Fermé',
+          Horaire_fermeture_aprem: 'Fermé',
+        });
+      }
+
       res.status(200).json(horaires);
     } catch (error) {
       console.error(error);
@@ -34,10 +53,13 @@ class HoraireController {
     }
   }
 
+  // Récupérer un horaire par son ID
   static async getHoraireById(req, res) {
     const { id } = req.params;
     try {
-      const horaire = await Horaire.findByPk(id);
+      const horaire = await Horaire.findByPk(id, {
+        include: [Jours]
+      });
       if (!horaire) {
         return res.status(404).json({ message: "Horaire non trouvé" });
       }
@@ -48,24 +70,28 @@ class HoraireController {
     }
   }
 
+  // Mettre à jour un horaire
   static async updateHoraire(req, res) {
     const { id } = req.params;
     try {
-      const { Horaire_ouverture, Horaire_fermeture, Id_jours } = req.body;
+      const { Horaire_ouverture, Horaire_fermeture, Horaire_ouverture_aprem, Horaire_fermeture_aprem, Id_jours } = req.body;
 
-      // Validation des données
-      if (!Horaire_ouverture || !Horaire_fermeture || !Id_jours) {
-        return res.status(400).json({ error: "Tous les champs sont requis" });
-      }
+      const updateData = {
+        Horaire_ouverture,
+        Horaire_fermeture,
+        Horaire_ouverture_aprem,
+        Horaire_fermeture_aprem,
+        Id_jours
+      };
 
-      // Mise à jour de l'horaire
-      const [updated] = await Horaire.update(
-        { Horaire_ouverture, Horaire_fermeture, Id_jours },
-        { where: { Id_horaire: id } }
-      );
+      const [updated] = await Horaire.update(updateData, {
+        where: { Id_horaire: id }
+      });
 
       if (updated) {
-        const updatedHoraire = await Horaire.findByPk(id);
+        const updatedHoraire = await Horaire.findByPk(id, {
+          include: [Jours]
+        });
         res.status(200).json(updatedHoraire);
       } else {
         res.status(404).json({ message: "Horaire non trouvé" });
@@ -76,6 +102,7 @@ class HoraireController {
     }
   }
 
+  // Supprimer un horaire
   static async deleteHoraire(req, res) {
     const { id } = req.params;
     try {
