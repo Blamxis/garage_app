@@ -12,10 +12,6 @@ module.exports = (sequelize) => {
         Nom: {
             type : DataTypes.STRING(20),
             allowNull : false
-        },
-        Id_user: {
-            type: DataTypes.INTEGER,
-            allowNull: false
         }
     }, {
         sequelize,
