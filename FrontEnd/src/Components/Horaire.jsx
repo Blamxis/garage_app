@@ -46,8 +46,8 @@ const Horaires = () => {
 
   return (
     <ul className="horaires-list container">
-      {horaires.map((horaire) => (
-        <li key={horaire.Id_horaire} className="left-column">
+      {horaires.map((horaire, index) => (
+        <li key={`${horaire.Id_horaire}-${index}`} className="left-column">
           {horaire.Jour ? (
             <div>
               <span className="description">{horaire.Jour.Nom} : </span>
