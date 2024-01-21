@@ -1,3 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
 /* Style Background */
 
 .background-section {
@@ -59,7 +66,7 @@
     flex-direction: column;
     height: 100%;
     padding: 2rem;
-    background: beige;
+    background: #FAF5EC;
   }
   
   .content-wrapper {
@@ -94,7 +101,7 @@
   .services-section {
     display: flex;
     flex-direction: column;
-    color: beige;
+    color: #FAF5EC;
     background-color: #5F4D52;
     padding: 2em;
     font-family: 'Arial', sans-serif;
@@ -121,4 +128,92 @@
     text-align: justify;
     letter-spacing: -0.05em;
   }
+
+  /* Style section Avis */
+
+  .avis-section {
+    background-color: #FAF5EC;
+    text-align: center;
+  }
+
+  .avis-section h2 {
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  .leave-review-button {
+    background-color: #5F4D52;
+    color: #FAF5EC;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    outline: none;
+    display: inline-block;
+    margin: 20px auto;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .leave-review-button:hover {
+    background-color: #7A4B47;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Style section Horaires */
+
+  .horaires-section {
+    background-color: #5F4D52;
+    margin-bottom: 0;
+  }
+
+  .horaires-section h2 {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    color: #E68269;
+  }
+
+  .container-color {
+    background-color: #FAF5EC;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 5px;
+  }
+
+  /* Style section Contact */
+
+  .find_us-section{
+    padding: 10px;
+    background-color: #5F4D52;
+  }
+  
+  .find_us-section h2 {
+    color: #E68269;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 0;
+  }
+  
+  .contact-infos p {
+    color: #FAF5EC;
+    text-align: center;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .contact-infos .phone {
+    font-size: 20px;
+    padding: 10px;
+  }
+
+  .contact-infos .infos-phone {
+    padding: 0 auto;
+  }
+
+
   
