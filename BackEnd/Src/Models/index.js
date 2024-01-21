@@ -25,9 +25,6 @@ Service.belongsTo(User, { foreignKey: 'Id_user' });
 User.hasMany(Avis, { foreignKey: 'Id_user' });
 Avis.belongsTo(User, { foreignKey: 'Id_user' });
 
-User.hasMany(Jours, { foreignKey: 'Id_user' });
-Jours.belongsTo(User, { foreignKey: 'Id_user' });
-
 Jours.hasMany(Horaire, { foreignKey: 'Id_jours' });
 Horaire.belongsTo(Jours, { foreignKey: 'Id_jours' });
 
