@@ -3,9 +3,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function CustomNavbar() {
+  const location = useLocation();
+  // Vérification de l'URL
+  const isLoginPage = location.pathname === '/connexion';
+
   return (
     <Navbar expand="lg" className="custom-navbar">
       <Container fluid>
@@ -50,14 +54,18 @@ function CustomNavbar() {
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
-        <div className="text-right custom-text">
-          <Link to="/connexion" className="btn btn-outline-custom">
-            Connexion
-          </Link>
-        </div>
+        {!isLoginPage && (
+          <div className="text-right custom-text">
+            <Link to="/connexion" className="btn btn-outline-custom">
+              Connexion
+            </Link>
+          </div>
+        )}
       </Container>
     </Navbar>
   );
 }
 
 export default CustomNavbar;
+
+
