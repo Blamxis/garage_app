@@ -17,9 +17,21 @@ module.exports = (sequelize) => {
             type: DataTypes.TIME,
             allowNull: false
         },
+        Horaire_ouverture_aprem: {
+            type: DataTypes.TIME,
+            allowNull: true
+        },
+        Horaire_fermeture_aprem: {
+            type: DataTypes.TIME,
+            allowNull: true
+        },
         Id_jours: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: 'Jours',
+                key: 'Id_jours',
+            },
         }
     }, {
         sequelize,
