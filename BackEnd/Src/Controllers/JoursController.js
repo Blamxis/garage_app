@@ -1,33 +1,31 @@
 const { Jours } = require("../Models/index");
 
 class JoursController {
-
+  
   // Créer un jour
   static async createJour(req, res) {
     try {
-      const { Nom, Id_user } = req.body;
+      const { Nom } = req.body;
 
-      // Création du jour
-      const newJour = await Jours.create({
-        Nom,
-        Id_user,
-      });
+      if (!Nom) {
+        return res.status(400).json({ error: "Le nom est requis" });
+      }
 
+      const newJour = await Jours.create({ Nom });
       res.status(201).json(newJour);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
 
   // Récupérer tous les jours
-  static async getAllJours(_, res) {
+  static async getAllJours(req, res) {
     try {
       const jours = await Jours.findAll();
-      if (jours.length === 0) {
-        return res.status(200).json({ message: 'Aucun jour disponible' });
-      }
       res.status(200).json(jours);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
@@ -42,6 +40,7 @@ class JoursController {
       }
       res.status(200).json(jour);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
@@ -50,17 +49,13 @@ class JoursController {
   static async updateJour(req, res) {
     const { id } = req.params;
     try {
-      const { Nom, Id_user } = req.body;
+      const { Nom } = req.body;
 
-      // Mise à jour du jour
-      const updateData = {
-        Nom,
-        Id_user, // L'ID de l'utilisateur associé à ce jour
-      };
+      if (!Nom) {
+        return res.status(400).json({ error: "Le nom est requis" });
+      }
 
-      const [updated] = await Jours.update(updateData, {
-        where: { Id_jours: id },
-      });
+      const [updated] = await Jours.update({ Nom }, { where: { Id_jours: id } });
 
       if (updated) {
         const updatedJour = await Jours.findByPk(id);
@@ -69,6 +64,7 @@ class JoursController {
         res.status(404).json({ message: "Jour non trouvé" });
       }
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
@@ -84,6 +80,7 @@ class JoursController {
         res.status(404).json({ message: "Jour non trouvé" });
       }
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
