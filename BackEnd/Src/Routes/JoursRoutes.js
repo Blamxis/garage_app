@@ -11,7 +11,7 @@ class JoursRoutes {
 
     initRoutes() {
         this.router.post('/admin/jours', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], JoursController.createJour);
-        this.router.get('/admin/jours', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], JoursController.getAllJours);
+        this.router.get('/jours', JoursController.getAllJours);
         this.router.get('/admin/jours/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], JoursController.getJourById);
         this.router.put('/admin/jours/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], JoursController.updateJour);
         this.router.delete('/admin/jours/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], JoursController.deleteJour);
