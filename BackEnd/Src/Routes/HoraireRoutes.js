@@ -11,7 +11,7 @@ class HoraireRoutes {
 
     initRoutes() {
         this.router.post('/admin/horaires', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], HoraireController.createHoraire);
-        this.router.get('/admin/horaires', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], HoraireController.getAllHoraires);
+        this.router.get('/horaires', HoraireController.getAllHoraires);
         this.router.get('/admin/horaires/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], HoraireController.getHoraireById);
         this.router.put('/admin/horaires/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], HoraireController.updateHoraire);
         this.router.delete('/admin/horaires/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], HoraireController.deleteHoraire);
