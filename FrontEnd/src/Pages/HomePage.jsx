@@ -1,11 +1,11 @@
-import CustomNavbar from "../Components/Navbar";
+import CustomNavbar from "../Components/NavBar/Navbar";
 import backgroundImage from "../assets/Images/background_Camaro_SS_69.jpg";
 import logoImage from "../assets/Images/Logo_FInal-ok.png";
 import Mecano from "../assets/Images/Mécanicien.jpg";
-import TestimonialSlider from "../Components/TestimonialSlider";
+import TestimonialSlider from "../Components/Testimonials/TestimonialSlider";
 import { Link } from "react-router-dom";
-import Horaire from "../Components/Horaire";
-import Footer from "../Components/Footer";
+import Horaire from "../Components/Horaires/Horaire";
+import Footer from "../Components/Footer/Footer";
 
 const HomePage = () => {
   const scrollToSection = () => {
