@@ -1,4 +1,4 @@
-import CustomNavbar from "../Components/Navbar";
+import CustomNavbar from "../Components/NavBar/Navbar";
 
 const ParcAuto = () => {
     return (
