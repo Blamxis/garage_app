@@ -1,7 +1,7 @@
-import CustomNavbar from "../Components/Navbar";
-import LoginForm from '../Components/LoginForm';
+import CustomNavbar from "../Components/NavBar/Navbar";
+import LoginForm from '../Components/LoginForm/LoginForm';
 import logoImage from "../assets/Images/Logo_FInal-ok.png";
-import Footer from "../Components/Footer";
+import Footer from "../Components/Footer/Footer";
 
 
 const Connexion = () => {
