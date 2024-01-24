@@ -1,0 +1,172 @@
+@use './abstracts/' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $fontFamily;
+    color: $txtColor;
+    font-size: $fontSizeNormal;
+    line-height: 1.5;
+    background-color: $bodyBg;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+img {
+    width: 100%;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+.mb {
+    margin-bottom: $spacing;
+
+    @include tablet {
+        margin-bottom: $mobileSpacing;
+    }
+}
+
+.title {
+    font-size: $fontSizeMedium;
+    font-weight: 700;
+}
+
+.txt-success {
+    color: $green;
+}
+
+.txt-danger { 
+    color: $red;
+}
+
+/* Style Background */
+.background-section {
+    @include background-section;
+  }
+  
+  .centered-logo {
+    @include centered-logo;
+  }
+  
+  .scroll-button {
+    @include scroll-button;
+  }
+  
+  .scroll-button .arrow-down {
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    border-right: 4px solid currentColor;
+    border-bottom: 4px solid currentColor;
+    transform: rotate(45deg);
+    margin-left: 1px;
+    color: $color-accent; 
+  }
+
+  .centered-logo {
+    @include centered-logo(400px);
+  }
+  
+  /* Style Section 1 about */
+  .about {
+    @include about-section;
+  }
+  
+  .image-section img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid $color-accent;
+  }
+  
+  .content-wrapper h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .text-section {
+    text-align: justify;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    letter-spacing: -0.05rem;
+  }
+  
+  /* Style section 2 préstations */
+  .services-section {
+    @include services-section;
+  }
+  
+  .services-section h2 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+  }
+  
+  .services-section h3 {
+    text-align: center;
+    font-size: 1.2em;
+  }
+  
+  /* Style section Avis */
+
+  .avis-section {
+    @include avis-section;
+  }
+  
+  /* Style section Horaires */
+
+  .horaires-section {
+    @include horaires-section;
+  }
+  
+  /* Style section Contact */
+  .find_us-section {
+    @include find-us-section;
+  }
+  
+  /* Style Page Connexion */
+
+  .connexion-container {
+    @include connexion-container;
+  }
+  
+  .contact-info {
+    font-size: $contact-info-font-size;
+  }
+
+  .connexion-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    background-color: $color-secondary; 
+  }
+  
+  .contact-info {
+    color: $color-accent; 
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+  
+  .custom-logo {
+    position: absolute;
+    top: 68%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    max-width: 300px;
+  }

@@ -1,0 +1,196 @@
+@use './variables' as *;
+
+@mixin flex($alignItem: center, $justifyContent: center) {
+    display: flex;
+    align-items: $alignItem;
+    justify-content: $justifyContent;
+}
+
+@mixin mobile {
+    @media only screen and (max-width: $mobile-width) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media only screen and (max-width: $tablet-width) {
+        @content;
+    }
+}
+
+// Mixin pour le style de la section de fond
+@mixin background-section {
+  position: relative;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255,90,0, 0.20);
+    mix-blend-mode: color-burn;
+    z-index: 1;
+  }
+}
+
+// Mixin pour le logo centré
+@mixin centered-logo($maxWidth: 100%) {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: $maxWidth;
+  z-index: 1;
+}
+
+// Mixin pour le bouton de défilement
+@mixin scroll-button {
+  position: absolute;
+  bottom: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 30px;
+  border-radius: 50%;
+  background-color: rgba($black, 0.8);
+  border: none;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+}
+
+// Mixin pour la section "about"
+@mixin about-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2rem;
+  background: $mainBg;
+}
+
+// Mixin pour la section "préstations"
+@mixin services-section {
+  display: flex;
+  flex-direction: column;
+  color: $color-secondary;
+  background-color: $color-background-dark;
+  padding: 2em;
+  font-family: 'Arial', sans-serif;
+
+  h2 {
+    color: $color-accent;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    letter-spacing: 0.1em;
+  }
+
+  h3 {
+    color: $color-accent;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: center;
+  }
+
+  p {
+    line-height: 1.6;
+    margin-bottom: 1em;
+    text-align: justify;
+    letter-spacing: -0.05em;
+  }
+}
+
+// Mixin pour la section "Avis"
+@mixin avis-section {
+  background-color: $mainBg;
+  text-align: center;
+
+  h2 {
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  .leave-review-button {
+    background-color: $color-background-dark;
+    color: $color-secondary;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba($black, 0.2);
+    outline: none;
+    display: inline-block;
+    margin: 20px auto;
+    transition: all 0.3s ease;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #7A4B47;
+      box-shadow: 0 4px 8px rgba($black, 0.3);
+    }
+  }
+}
+
+// Mixin pour la section "Horaires"
+@mixin horaires-section {
+  background-color: $color-background-dark;
+  margin-bottom: 0;
+
+  h2 {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    color: $color-accent;
+  }
+
+  .container-color {
+    background-color: $color-secondary;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 5px;
+  }
+}
+
+// Mixin pour la section "Contact"
+@mixin find-us-section {
+  padding: 10px;
+  background-color: $color-background-dark;
+
+  h2 {
+    color: $color-accent;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 0;
+  }
+
+  .contact-infos p {
+    color: $color-secondary;
+    text-align: center;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .contact-infos .phone {
+    font-size: 20px;
+    padding: 10px;
+  }
+
+  .contact-infos .infos-phone {
+    padding: 0 auto;
+  }
+}
+
+// Mixin pour la page de connexion
+@mixin connexion-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  background-color: $color-secondary;
+}
