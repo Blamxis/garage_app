@@ -1,0 +1,52 @@
+@use '../../scss/abstracts/' as *;
+
+
+.testimonial {
+    background-color: $color-background-dark;
+    border: 1px solid $color-text-light;
+    border-radius: $border-radius;
+    padding: $general-padding;
+    margin: $spacing 0;
+  }
+  
+  
+  .testimonial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $general-margin;
+    color: $color-accent;
+  }
+  
+  
+  .testimonial-name {
+    margin: 0;
+    font-size: $fontSizeLarge;
+  }
+  
+ 
+  .testimonial-rating {
+    color: $color-accent;
+  }
+  
+  
+  .star {
+    display: inline-block;
+    margin-right: $general-margin;
+  }
+  
+  
+  .testimonial-description {
+    font-size: $fontSizeNormal;
+    color: $color-text-light;
+    margin: 0;
+  }
+  
+  
+  .testimonial-date {
+    font-size: 0.8em;
+    color: $color-text-light;
+    margin-top: $general-margin;
+    text-align: right;
+  }
+  
