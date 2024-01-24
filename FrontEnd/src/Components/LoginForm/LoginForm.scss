@@ -1,0 +1,54 @@
+@use '../../scss/abstracts/' as *;
+
+.login-form {
+    background-color: $color-background-dark;
+    padding: 20px;
+    box-shadow: $box-shadow-light; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    gap: 15px;
+    width: 100%;
+    max-width: $content-max-width;
+    height: auto; 
+    margin: $general-margin auto;
+
+    .form-label {
+      color: $color-text-light;
+    }
+  
+    h2 {
+      color: $color-text-light;
+      margin-bottom: 20px; 
+    }
+  
+    input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: $border-radius;
+      margin-bottom: 10px; 
+      font-size: $fontSizeNormal; 
+  
+      &::placeholder {
+        color: $color-text-light;
+      }
+    }
+  
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: $border-radius;
+      background-color: $color-accent; 
+      color: $color-text-light; 
+      font-size: $fontSizeNormal;
+      cursor: pointer;
+      transition: background-color 0.3s ease; 
+  
+      &:hover {
+        background-color: $color-hover-dark;
+      }
+    }
+  }
