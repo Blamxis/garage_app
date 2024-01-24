@@ -1,0 +1,42 @@
+@use '../../scss/abstracts/' as *;
+
+// Style des éléments .horaires-list li
+.horaires-list li {
+    border-bottom: 2px solid $color-accent;
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+  }
+  
+  // Style de la classe .container
+  .container {
+    background-color: $color-background-dark;
+    border: 1px solid $color-accent;
+    padding: 20px;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 6px rgba($black, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  // Style de la classe .left-column
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  // Style de la classe .time
+  .time {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: $color-text-light;
+  }
+  
+  // Style de la classe .description
+  .description {
+    font-size: 18px;
+    color: $color-accent;
+    text-align: start;
+  }
