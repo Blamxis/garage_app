@@ -1,0 +1,45 @@
+@use '../../scss/abstracts/' as *;
+
+.custom-toolbar {
+  background-color: $color-background-dark;
+  color: $color-secondary;
+}
+
+.custom-table {
+  background-color: $color-background-dark;
+  color: $color-secondary;
+
+  .custom-table-row {
+    &:nth-of-type(odd) {
+      background-color: $color-secondary;
+    }
+
+    &:nth-of-type(even) {
+      background-color: $color-secondary;
+    }
+
+    &:hover {
+      .custom-table-cell {
+        color: $color-secondary;
+      }
+    }
+  }
+
+  .custom-table-cell {
+    color: $color-background-dark;
+  }
+}
+
+.data-row-card {
+    background-color: $color-background-dark; 
+    color: $color-secondary; 
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  
+    &:hover {
+      background-color: $color-secondary;
+      color: $color-background-dark;
+    }
+  
+  }
