@@ -10,7 +10,7 @@ import CarInfos from '../Pages/CarInfos';
 import Avis from '../Pages/Avis';
 import Contact from '../Pages/Contact';
 import Connexion from '../Pages/Connexion';
-import DashboardAdmin from '../Pages/DashboardAdmin';
+import DashboardAdmin from '../Pages/DashboardAdmin/DashboardAdmin';
 import DashboardEmployee from '../Pages/DashboardEmployee';
 import NotFoundPage from '../Pages/NotFoundPage';
 
