@@ -30,28 +30,29 @@ class HoraireController {
   // Récupérer tous les horaires
   static async getAllHoraires(req, res) {
     try {
-      const horaires = await Horaire.findAll({
-        include: [Jours]
-      });
-
-      const dimanchePresent = horaires.some((horaire) => horaire.Id_jours === 'Dimanche');
-
-      if (!dimanchePresent) {
-        horaires.push({
-          Id_jours: 'Dimanche',
-          Horaire_ouverture: 'Fermé',
-          Horaire_fermeture: 'Fermé',
-          Horaire_ouverture_aprem: 'Fermé',
-          Horaire_fermeture_aprem: 'Fermé',
+        const horaires = await Horaire.findAll({
+            include: [Jours]
         });
-      }
 
-      res.status(200).json(horaires);
+        const dimanchePresent = horaires.some((horaire) => horaire.Id_jours === 'Dimanche');
+
+        if (!dimanchePresent) {
+            const dimancheFerme = {
+                Id_jours: 'Dimanche',
+                Horaire_ouverture: 'Fermé',
+                Horaire_fermeture: 'Fermé',
+                Horaire_ouverture_aprem: 'Fermé',
+                Horaire_fermeture_aprem: 'Fermé',
+            };
+            horaires.push(dimancheFerme);
+        }
+
+        res.status(200).json(horaires);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erreur serveur" });
+        console.error(error);
+        res.status(500).json({ error: "Erreur serveur" });
     }
-  }
+}
 
   // Récupérer un horaire par son ID
   static async getHoraireById(req, res) {
