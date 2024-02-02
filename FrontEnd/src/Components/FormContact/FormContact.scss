@@ -1,0 +1,94 @@
+@use '../../scss/abstracts/' as *;
+
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-text-light;
+  padding: 20px;
+  border-radius: $border-radius;
+  max-width: 500px;
+ 
+
+  h2 {
+    text-align: center;
+    color: $color-accent;
+    margin-bottom: 20px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid $color-accent;
+    border-radius: $border-radius;
+    background-color: $color-background-dark;
+    color: $color-secondary;
+
+    &::placeholder {
+      color: $color-accent;
+    }
+  }
+
+  textarea {
+    height: 100px;
+    resize: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: $color-background-dark;
+    color: $color-accent;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $color-text-light;
+      border: 1px solid $color-background-dark;
+      color: $color-background-dark;
+    }
+  }
+
+  .loading {
+    animation: spin 2s linear infinite;
+  }
+
+  @media (min-width: 768px) {
+    margin-left: 150px; 
+    margin-right: auto; 
+    height: auto;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.snackbar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: $color-background-dark;
+    color: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    animation: fadeInOut 3s;
+  
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      10%, 90% { opacity: 1; }
+    }
+  }
