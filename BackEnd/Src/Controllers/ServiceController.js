@@ -52,6 +52,23 @@ class ServiceController {
     }
   }
 
+  // Get By Type
+  static async getServicesByType(req, res) {
+    const { type } = req.params;
+    try {
+      const services = await Service.findAll({
+        where: { Type: type }
+      });
+      if (!services || services.length === 0) {
+        return res.status(404).json({ message: "Aucun service trouvé pour ce type" });
+      }
+      res.status(200).json(services);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Erreur serveur" });
+    }
+  }
+
   // Update
   static async updateService(req, res) {
     const { id } = req.params;
