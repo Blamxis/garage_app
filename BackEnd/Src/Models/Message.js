@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
             allowNull : false
         },
         Type : {
-            type : DataTypes.ENUM('services', 'contact', 'voitures'), // Pour trier les formulaires dans le dashboard avec input chaché en front
+            type : DataTypes.ENUM('services', 'contact', 'voitures'),
             allowNull : false
         },
         Nom : {
