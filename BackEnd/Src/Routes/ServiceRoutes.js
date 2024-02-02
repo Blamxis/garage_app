@@ -10,6 +10,9 @@ class ServiceRoutes {
     }
 
     initRoutes() {
+
+        this.router.get('/services/:type', ServiceController.getServicesByType);
+
         this.router.post('/admin/services', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.createService);
         this.router.get('/admin/services', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.getAllServices);
         this.router.get('/admin/services/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], ServiceController.getServiceById);
