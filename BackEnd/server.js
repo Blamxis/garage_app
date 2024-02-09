@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const path = require('path');
 
 // Import de la connexion à la database
 const database = require('./Src/Utils/db.config');
@@ -22,6 +23,7 @@ const EquipementOptionsRoutes = require('./Src/Routes/EquipementOptionsRoutes');
 const VoitureEquipementsRoutes = require('./Src/Routes/VoitureEquipementsRoutes');
 const AnnonceRoutes = require('./Src/Routes/AnnonceRoutes');
 
+
 // Classe Server qui encapsule toute la configuration et la logique du serveur Express
 class Server {
     constructor() {
@@ -36,10 +38,19 @@ class Server {
     // Configuration des Middlewares
     configMiddlewares() {
         
-        this.app.use(cors()); // Activation de CORS
+        this.app.use(cors({
+            origin: 'http://localhost:5173',
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+            credentials: true,
+        })); // Activation de CORS
         this.app.use(helmet()); // Sécurisation des en-têtes HTTP
         this.app.use(express.json()); // Pour analyser les requêtes JSON
         this.app.use(express.urlencoded({ extended: true})); // Pour analyser les requêtes URL encodées
+        this.app.use('/api/Public/Uploads', express.static(path.join(__dirname, 'Public', 'Uploads'), {
+            setHeaders: (res, path) => {
+                res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+            }
+        }));
     }
 
     routes() {
