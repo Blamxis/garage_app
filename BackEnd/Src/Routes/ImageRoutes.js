@@ -1,4 +1,5 @@
 const express = require('express');
+const imageUploader = require('../Middlewares/ImageUploader');
 const ImageController = require('../Controllers/ImageController');
 const AuthMiddleware = require('../Middlewares/AuthMiddleware');
 const RoleMiddleware = require('../Middlewares/RoleMiddleware');
@@ -11,7 +12,7 @@ class ImageRoutes {
 
     initRoutes() {
         
-        this.router.post('/images/upload', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], ImageController.create);
+        this.router.post('/images/upload', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin, imageUploader.array('image', 5)], ImageController.create);
 
         //Admin
         this.router.get('/admin/images', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], ImageController.getAll);
