@@ -1,11 +1,16 @@
+import { Outlet } from "react-router-dom";
+
 const DashboardEmployee = () => {
-    return (
-      <div>
-        {/* Contenu de la page Mécanique */}
-        <h1>Page de DashBoardEmployee</h1>
-        {/* Ajoutez le contenu supplémentaire de votre page ici */}
+  return (
+    <>
+      <div className="main">
+        <div className="main__content">
+          <h1>Page de DashBoardEmployee</h1>
+          <Outlet />
+        </div>
       </div>
-    );
-  };
-  
-  export default DashboardEmployee;
+    </>
+  );
+};
+
+export default DashboardEmployee;
