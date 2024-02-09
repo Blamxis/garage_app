@@ -1,17 +1,45 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from "react";
+import PropTypes from "prop-types";
 import {
-  Table, TableBody, TableCell, TableHead, TableRow, Paper, Checkbox, IconButton,
-  Toolbar, Typography, Tooltip, Box, Button, Dialog, DialogContent, DialogActions, TextField, Snackbar,
-  useTheme, useMediaQuery
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MuiAlert from '@mui/material/Alert';
-import './EnhancedTable.scss';
+  Box,
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  IconButton,
+  Paper,
+  Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField,
+  Toolbar,
+  Tooltip,
+  Select,
+  InputLabel,
+  FormControl,
+  MenuItem,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import MuiAlert from "@mui/material/Alert";
+import "./EnhancedTable.scss";
 
-const EnhancedTableHead = ({ onSelectAllClick, numSelected, rowCount, columns }) => (
+const EnhancedTableHead = ({
+  onSelectAllClick,
+  numSelected,
+  rowCount,
+  columns,
+}) => (
   <TableHead>
     <TableRow>
       <TableCell padding="checkbox">
@@ -30,7 +58,7 @@ const EnhancedTableHead = ({ onSelectAllClick, numSelected, rowCount, columns })
 );
 
 const EnhancedTableToolbar = ({ numSelected, onAdd }) => (
-  <Toolbar className='custom-toolbar'>
+  <Toolbar className="custom-toolbar">
     {numSelected > 0 ? (
       <Typography color="inherit" variant="subtitle1" component="div">
         {numSelected} sélectionné(s)
@@ -41,44 +69,73 @@ const EnhancedTableToolbar = ({ numSelected, onAdd }) => (
       </Typography>
     )}
     <Tooltip title="Ajouter">
-      <Button startIcon={<AddIcon />} onClick={onAdd} color='warning'>
+      <Button startIcon={<AddIcon />} onClick={onAdd} color="warning">
         Ajouter
       </Button>
     </Tooltip>
   </Toolbar>
 );
 
-const DataRowCard = ({ row, columns, onEdit, onDelete, onSelect, isSelected, idField }) => (
-  <Box className="data-row-card" margin={2} boxShadow={2} p={2}>
-    <Checkbox
-      checked={isSelected}
-      onChange={() => onSelect(row[idField])}
-    />
-    {columns.map((column) => (
-      <Typography key={column.id} gutterBottom>
-        <strong>{column.label}:</strong> {row[column.id]}
-      </Typography>
-    ))}
-    <Box display="flex" justifyContent="flex-end">
-      <IconButton onClick={() => onEdit(row)}><EditIcon /></IconButton>
-      <IconButton onClick={() => onDelete([row[idField]])} color="error"><DeleteIcon /></IconButton>
-    </Box>
-  </Box>
+const DataRowCard = ({
+  row,
+  columns,
+  onEdit,
+  onDelete,
+  onSelect,
+  isSelected,
+  idField,
+}) => (
+  <div className="data-row-card">
+    <div className="data-row-card-content">
+      {columns.map((column) => (
+        <div key={column.id} className="data-row-card-item">
+          <strong>{column.label}:</strong> {row[column.id]}
+        </div>
+      ))}
+    </div>
+    <div className="data-row-card-actions">
+      <Checkbox
+        checked={isSelected}
+        onChange={() => onSelect(row[idField])}
+        inputProps={{ "aria-label": `select row ${row[idField]}` }}
+      />
+      <IconButton color="primary" onClick={() => onEdit(row)}>
+        <EditIcon />
+      </IconButton>
+      <IconButton color="error" onClick={() => onDelete([row[idField]])}>
+        <DeleteIcon />
+      </IconButton>
+    </div>
+  </div>
 );
 
-const EnhancedTable = ({ columns, data, onAdd, onEdit, onDelete, idField }) => {
+const EnhancedTable = ({
+  columns,
+  data,
+  modelList,
+  onAdd,
+  onEdit,
+  onDelete,
+  onUploadImages,
+  idField,
+}) => {
   const [selected, setSelected] = useState([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [currentData, setCurrentData] = useState({});
   const [newData, setNewData] = useState({});
+  const [currentData, setCurrentData] = useState({});
   const [updateSuccessMessage, setUpdateSuccessMessage] = useState("");
   const [isUpdateSuccessOpen, setIsUpdateSuccessOpen] = useState(false);
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
+  const [currentItemIdForUpload, setCurrentItemIdForUpload] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [error, setError] = useState("");
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
+  // Gestionnaire pour la sélection de toutes les lignes
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = data.map((n) => n[idField]);
@@ -88,22 +145,7 @@ const EnhancedTable = ({ columns, data, onAdd, onEdit, onDelete, idField }) => {
     setSelected([]);
   };
 
-  const handleSelect = (id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex >= 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
+  // Gestionnaire pour la sélection d'une ligne individuelle
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -117,168 +159,304 @@ const EnhancedTable = ({ columns, data, onAdd, onEdit, onDelete, idField }) => {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
-
     setSelected(newSelected);
   };
 
+  // Gestionnaire pour ouvrir le dialogue d'ajout
   const handleAddDialogOpen = () => {
     setIsAddDialogOpen(true);
   };
 
+  // Gestionnaire pour fermer le dialogue d'ajout
   const handleAddDialogClose = () => {
     setIsAddDialogOpen(false);
     setNewData({});
   };
 
+  // Gestionnaire pour enregistrer les données ajoutées
   const handleAddDialogSave = () => {
-    onAdd(newData);
-    handleAddDialogClose();
-    setUpdateSuccessMessage("Ajout réussie !");
-    setIsUpdateSuccessOpen(true);
+    try {
+      const voitureDataToAdd = {
+        ...newData,
+        ModelNom: newData.ModelNom || "",
+      };
+      onAdd(voitureDataToAdd);
+      handleAddDialogClose();
+      setUpdateSuccessMessage("Ajout réussi !");
+      setIsUpdateSuccessOpen(true);
+      setError("");
+    } catch {
+      setError("Échec de l'ajout : " + error.message);
+    }
   };
 
+  // Gestionnaire pour ouvrir le dialogue d'édition
   const handleEditDialogOpen = (dataItem) => {
     setCurrentData(dataItem);
     setIsEditDialogOpen(true);
   };
 
+  // Gestionnaire pour fermer le dialogue d'édition
   const handleEditDialogClose = () => {
     setIsEditDialogOpen(false);
     setCurrentData({});
   };
 
+  // Gestionnaire pour enregistrer les données éditées
   const handleEditDialogSave = () => {
-    onEdit(currentData);
-    handleEditDialogClose();
-    setUpdateSuccessMessage("Mise à jour réussie !");
-    setIsUpdateSuccessOpen(true);
+    try {
+      
+      const voitureDataToEdit = {
+        ...currentData,
+        ModelNom: currentData.ModelNom || "",
+      };
+      onEdit(voitureDataToEdit);
+      handleEditDialogClose();
+      setUpdateSuccessMessage("Mise à jour réussie !");
+      setIsUpdateSuccessOpen(true);
+      setError("");
+    } catch {
+      setError("Échec de la mise à jour : " + error.message);
+    }
   };
 
+  // Gestionnaire pour ouvrir le dialogue de confirmation de suppression
   const handleDeleteDialogOpen = (id) => {
     setSelected([id]);
     setIsDeleteDialogOpen(true);
   };
 
+  // Gestionnaire pour fermer le dialogue de confirmation de suppression
   const handleDeleteDialogClose = () => {
     setIsDeleteDialogOpen(false);
   };
 
-  const handleDeleteConfirm = () => {
-    onDelete(selected);
-    setSelected([]);
-    handleDeleteDialogClose();
-    setUpdateSuccessMessage("Suppression réussie !");
-    setIsUpdateSuccessOpen(true);
+  // Gestionnaire pour confirmer la suppression
+  const handleDeleteConfirm = async () => {
+    try {
+      await onDelete(selected);
+      setSelected([]);
+      handleDeleteDialogClose();
+      setUpdateSuccessMessage("Suppression réussie !");
+      setIsUpdateSuccessOpen(true);
+      setError("");
+    } catch {
+      setError("Échec de la suppression : " + error.message);
+    }
   };
 
+  const handleUploadDialogOpen = (id) => {
+    setCurrentItemIdForUpload(id);
+    setIsUploadDialogOpen(true);
+  };
+
+  const handleUploadDialogClose = () => {
+    setIsUploadDialogOpen(false);
+  };
+
+  const handleFileSelect = (event) => {
+    setSelectedFiles(event.target.files);
+  };
+
+  const handleUploadSave = async () => {
+    handleUploadDialogClose(); 
+    if (selectedFiles.length > 0 && currentItemIdForUpload) {
+      try {
+        onUploadImages(currentItemIdForUpload, selectedFiles);
+        setUpdateSuccessMessage("Les images ont été uploadées avec succès.");
+  
+      } catch (error) {
+        console.error('Erreur lors de l\'upload des images :', error);
+      }
+    } else {
+      console.error('Aucun fichier sélectionné ou ID de voiture manquant.');
+    }
+    setSelectedFiles([]); 
+    setCurrentItemIdForUpload(null);
+  };
+
+  
   return (
-    <Box sx={{ width: '100%' }}>
-      {isMobile ? (
-        <Box>
-          <Toolbar>
-            <Tooltip title="Ajouter">
-              <Button startIcon={<AddIcon />} onClick={handleAddDialogOpen} color="primary">
-                Ajouter
-              </Button>
-            </Tooltip>
-          </Toolbar>
-          {data.map(row => (
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ mb: 2 }}>
+        {isMobile ? (
+          data.map((row) => (
             <DataRowCard
               key={row[idField]}
               row={row}
               columns={columns}
               onEdit={() => handleEditDialogOpen(row)}
-              onDelete={() => handleDeleteDialogOpen(row [idField])}
-              onSelect={handleSelect}
-              isSelected={selected.indexOf(row[idField]) !== -1}
-              idField={idField}
+              onDelete={() => handleDeleteDialogOpen(row[idField])}
             />
-          ))}
-        </Box>
-      ) : (
-        <Paper sx={{ mb: 2 }}>
-          <EnhancedTableToolbar numSelected={selected.length} onAdd={handleAddDialogOpen} />
-          <Table className='custom-table'>
-            <EnhancedTableHead className='custom-table-head'
+          ))
+        ) : (
+          <>
+            <EnhancedTableToolbar
               numSelected={selected.length}
-              onSelectAllClick={handleSelectAllClick}
-              rowCount={data.length}
-              columns={columns}
+              onAdd={handleAddDialogOpen}
             />
-            <TableBody>
-              {data.map((row) => {
-                const isItemSelected = selected.indexOf(row[idField]) !== -1;
-                return (
-                  <TableRow className='custom-table-row'
-                    hover
-                    onClick={(event) => handleClick(event, row[idField])}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row[idField]}
-                    selected={isItemSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox checked={isItemSelected} />
-                    </TableCell>
-                    {columns.map((column) => (
-                      <TableCell className='custom-table-cell' key={column.id}>{row[column.id]}</TableCell>
-                    ))}
-                    <TableCell>
-                      <IconButton onClick={() => handleEditDialogOpen(row)}><EditIcon /></IconButton>
-                      <IconButton onClick={() => handleDeleteDialogOpen()} color="error"><DeleteIcon /></IconButton>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Paper>
-      )}
-
+            <Table className="custom-table">
+              <EnhancedTableHead
+                numSelected={selected.length}
+                onSelectAllClick={handleSelectAllClick}
+                rowCount={data.length}
+                columns={columns}
+              />
+              <TableBody>
+                {data.map((row) => {
+                  const isItemSelected = selected.indexOf(row[idField]) !== -1;
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row[idField]}
+                      selected={isItemSelected}
+                      className="custom-table-row"
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={isItemSelected}
+                          onChange={(event) => {
+                            event.stopPropagation();
+                            handleClick(event, row[idField]);
+                          }}
+                        />
+                      </TableCell>
+                      {columns.map((column) => (
+                        <TableCell
+                          key={column.id}
+                          className="custom-table-cell"
+                        >
+                          {column.render ? column.render(row) : row[column.id]}
+                        </TableCell>
+                      ))}
+                      <TableCell>
+                        <IconButton onClick={() => handleEditDialogOpen(row)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleDeleteDialogOpen(row[idField])}
+                          color="error"
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleUploadDialogOpen(row[idField])}
+                          color="primary"
+                        >
+                          <PhotoCameraIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </>
+        )}
+      </Paper>
+      {/* Add Dialog */}
       <Dialog open={isAddDialogOpen} onClose={handleAddDialogClose}>
         <DialogContent>
-          {columns.map((column) => (
-            <TextField
-              key={column.id}
-              label={column.label}
-              value={newData[column.id] || ''}
-              onChange={(e) => setNewData({ ...newData, [column.id]: e.target.value })}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-            />
-          ))}
+          {columns.map((column) =>
+            column.id === "ModelNom" ? (
+              <FormControl key={column.id} fullWidth margin="normal">
+                <InputLabel>{column.label}</InputLabel>
+                <Select
+                  label={column.label}
+                  value={newData[column.id] || ""}
+                  onChange={(e) =>
+                    setNewData({ ...newData, [column.id]: e.target.value })
+                  }
+                >
+                  <MenuItem value="" disabled>
+                    Sélectionnez un modèle
+                  </MenuItem>
+                  {modelList.map((model) => (
+                    <MenuItem key={model.id} value={model.nom}>
+                      {model.nom}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            ) : (
+              <TextField
+                key={column.id}
+                label={column.label}
+                value={newData[column.id] || ""}
+                onChange={(e) =>
+                  setNewData({ ...newData, [column.id]: e.target.value })
+                }
+                fullWidth
+                margin="normal"
+                variant="outlined"
+              />
+            )
+          )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleAddDialogClose} color="primary">
+          <Button onClick={handleAddDialogClose} color="error">
             Annuler
           </Button>
-          <Button onClick={handleAddDialogSave} color="primary">
+          <Button onClick={handleAddDialogSave} color="success">
             Enregistrer
           </Button>
         </DialogActions>
       </Dialog>
 
+      {/* Edit Dialog */}
+      
       <Dialog open={isEditDialogOpen} onClose={handleEditDialogClose}>
         <DialogContent>
-          {columns.map((column) => (
-            <TextField
-              key={column.id}
-              label={column.label}
-              value={currentData[column.id] || ''}
-              onChange={(e) => setCurrentData({ ...currentData, [column.id]: e.target.value })}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-            />
-          ))}
+          {columns.map((column) =>
+            column.id === "ModelNom" ? (
+              <FormControl key={column.id} fullWidth margin="normal">
+                <InputLabel>{column.label}</InputLabel>
+                <Select
+                  label={column.label}
+                  value={currentData[column.id] || ""}
+                  onChange={(e) =>
+                    setCurrentData({
+                      ...currentData,
+                      [column.id]: e.target.value,
+                    })
+                  }
+                >
+                  <MenuItem value="" disabled>
+                    Sélectionnez un modèle
+                  </MenuItem>
+                  {modelList.map((model) => (
+                    <MenuItem key={model.id} value={model.nom}>
+                      {model.nom}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            ) : (
+              <TextField
+                key={column.id}
+                label={column.label}
+                value={currentData[column.id] || ""}
+                onChange={(e) =>
+                  setCurrentData({
+                    ...currentData,
+                    [column.id]: e.target.value,
+                  })
+                }
+                fullWidth
+                margin="normal"
+                variant="outlined"
+              />
+            )
+          )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleEditDialogClose} color="primary">
+          <Button onClick={handleEditDialogClose} color="error">
             Annuler
           </Button>
           <Button onClick={handleEditDialogSave} color="success">
@@ -287,25 +465,69 @@ const EnhancedTable = ({ columns, data, onAdd, onEdit, onDelete, idField }) => {
         </DialogActions>
       </Dialog>
 
+      {/*Delete Dialog*/}
+
       <Dialog open={isDeleteDialogOpen} onClose={handleDeleteDialogClose}>
         <DialogContent>
-          <Typography>
-            Confirmer la suppression de {selected.length} élément(s) ?
-          </Typography>
+          <DialogContentText>
+            Êtes-vous sûr de vouloir supprimer cet élément ?
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteDialogClose} color="primary">
+          <Button onClick={handleDeleteDialogClose} color="error">
             Annuler
           </Button>
-          <Button onClick={handleDeleteConfirm} color="error">
-            Supprimer
+          <Button onClick={handleDeleteConfirm} color="success" autoFocus>
+            Confirmer
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Snackbar open={isUpdateSuccessOpen} autoHideDuration={4000} onClose={() => setIsUpdateSuccessOpen(false)}>
+      {/* Upload Dialog */}
+
+      <Dialog open={isUploadDialogOpen} onClose={handleUploadDialogClose}>
+        <DialogContent>
+          <DialogContentText>
+            Téléchargez vos images.
+          </DialogContentText>
+          <input
+            type="file"
+            multiple
+            onChange={handleFileSelect}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleUploadDialogClose} color="error">
+            Annuler
+          </Button>
+          <Button onClick={handleUploadSave} color="success">
+            {" "}
+            Enregistrer
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Snackbar Success*/}
+
+      <Snackbar
+        open={isUpdateSuccessOpen}
+        autoHideDuration={4000}
+        onClose={() => setIsUpdateSuccessOpen(false)}
+      >
         <MuiAlert elevation={6} variant="filled" severity="success">
           {updateSuccessMessage}
+        </MuiAlert>
+      </Snackbar>
+
+      {/* SnackBar Error */}
+
+      <Snackbar
+        open={!!error}
+        autoHideDuration={4000}
+        onClose={() => setError("")}
+      >
+        <MuiAlert elevation={6} variant="filled" severity="error">
+          {error}
         </MuiAlert>
       </Snackbar>
     </Box>
@@ -318,7 +540,9 @@ EnhancedTable.propTypes = {
   onAdd: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onUploadImages : PropTypes.func,
   idField: PropTypes.string.isRequired,
+  modelList: PropTypes.array,
 };
 
 export default EnhancedTable;
