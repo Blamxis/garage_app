@@ -1,34 +1,73 @@
-const { Voiture, Modele } = require("../Models/index");
+const { Voiture, Modele, Images, sequelize } = require("../Models/index");
+const fs = require("fs").promises;
+const path = require("path");
 
 class VoitureController {
+  // Obtenir toutes les voitures avec le nom du modèle
+  static async getAllVoitures(_, res) {
+    try {
+      const voitures = await Voiture.findAll({
+        include: [
+          {
+            model: Modele,
+            attributes: ["Nom"],
+          },
+          {
+            model: Images,
+            attributes: ["Id_images", "Url"],
+          },
+        ],
+      });
+      res.status(200).json(voitures);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Erreur serveur" });
+    }
+  }
+
+  // Obtenir une voiture spécifique par son ID
+  static async getVoitureById(req, res) {
+    try {
+      const voiture = await Voiture.findByPk(req.params.id, {
+        include: [
+          {
+            model: Modele,
+            attributes: ["Nom"],
+          },
+          {
+            model: Images,
+            attributes: ["Id_images", "Url"],
+          },
+        ],
+      });
+
+      if (!voiture) {
+        return res.status(404).json({ message: "Voiture non trouvée" });
+      }
+      res.status(200).json(voiture);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Erreur serveur" });
+    }
+  }
+
+  // Créer une nouvelle voiture
   static async createVoiture(req, res) {
     try {
-      let { Kilometrage, Annee, Prix, Nom } = req.body;
-      
-      Kilometrage = parseInt(Kilometrage, 10);
-      Annee = parseInt(Annee, 10);
-      Prix = parseInt(Prix);
+      const { Kilometrage, Annee, Prix, ModelNom } = req.body;
 
-      // Id du modèle basé sur le nom
-
-      const modele = await Modele.findOne({ where: { Nom: Nom } });
+      const modele = await Modele.findOne({ where: { Nom: ModelNom } });
       if (!modele) {
-        return res.status(404).json({ error: 'Modèle non trouvé' });
+        return res.status(404).json({ message: "Modèle non trouvé" });
       }
 
-      if (
-        !isValideKilometrage(Kilometrage) ||
-        !isValideAnnee(Annee) ||
-        !isValidePrix(Prix)
-      ) {
-        return res.status(400).json({ error: "Données invalides" });
-      }
       const newVoiture = await Voiture.create({
         Kilometrage,
         Annee,
         Prix,
-        Id_modeles : modele.Id_modeles
+        Id_modeles: modele.Id_modeles,
       });
+
       res.status(201).json(newVoiture);
     } catch (error) {
       console.error(error);
@@ -36,100 +75,98 @@ class VoitureController {
     }
   }
 
-  static async getAllVoitures(_, res) {
+  // Mettre à jour une voiture
+  static async updateVoiture(req, res) {
     try {
-      const voitures = await Voiture.findAll();
-      res.status(200).json(voitures);
-    } catch (error) {
-      res.status(500).json({ error: "Erreur serveur" });
-    }
-  }
+      const { Kilometrage, Annee, Prix, ModelNom } = req.body;
+      const voiture = await Voiture.findByPk(req.params.id, {
+        include: [{ model: Modele, attributes: ["Nom"] }],
+      });
 
-  static async getVoitureById(req, res) {
-    const { id } = req.params;
-    try {
-      const voiture = await Voiture.findByPk(id);
       if (!voiture) {
         return res.status(404).json({ message: "Voiture non trouvée" });
       }
-      res.status(200).json(voiture);
-    } catch (error) {
-      res.status(500).json({ error: "Erreur serveur" });
-    }
-  }
 
-  static async updateVoiture(req, res) {
-    const { id } = req.params;
-    let { Kilometrage, Annee, Prix, Nom } = req.body;
-
-    try {
-      
-      Kilometrage = parseInt(Kilometrage, 10);
-      Annee = parseInt(Annee, 10);
-      Prix = parseFloat(Prix);
-
-      let Id_modeles = null;
-      if (Nom) {
-        const modele = await Modele.findOne({ where: { Nom: Nom } });
-        if (!modele) {
-          return res.status(404).json({ error: "Modèle non trouvé" });
-        }
-        Id_modeles = modele.ID_modele;
+      const modele = await Modele.findOne({ where: { Nom: ModelNom } });
+      if (!modele) {
+        return res.status(404).json({ message: "Modèle non trouvé" });
       }
 
-      // Valider les données
-      if (
-        !isValideKilometrage(Kilometrage) ||
-        !isValideAnnee(Annee) ||
-        !isValidePrix(Prix)
-      ) {
-        return res.status(400).json({ error: "Données invalides" });
-      }
+      await voiture.update({
+        Kilometrage,
+        Annee,
+        Prix,
+        Id_modeles: modele.Id_modeles,
+      });
 
-      // Mettre à jour la voiture
-      const [updated] = await Voiture.update(
-        { Kilometrage, Annee, Prix, Id_modeles },
-        { where: { ID_voiture: id } }
-      );
+      const updatedVoiture = {
+        ...voiture.toJSON(),
+        Modele: { Nom: modele.Nom },
+      };
 
-      if (updated) {
-        const updatedVoiture = await Voiture.findByPk(id);
-        res.status(200).json(updatedVoiture);
-      } else {
-        res.status(404).json({ message: "Voiture non trouvée" });
-      }
+      res.status(200).json(updatedVoiture);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
 
+  // Supprimer une voiture avec ses images associées
   static async deleteVoiture(req, res) {
-    const { id } = req.params;
+    const transaction = await sequelize.transaction();
     try {
-      const deleted = await Voiture.destroy({ where: { Id_voiture: id } });
-      if (deleted) {
-        res.status(204).send();
-      } else {
-        res.status(404).json({ message: "Voiture non trouvée" });
+      const voiture = await Voiture.findByPk(
+        req.params.id,
+        {
+          include: [Images],
+        },
+        { transaction }
+      );
+
+      if (!voiture) {
+        await transaction.rollback();
+        return res.status(404).send("Voiture non trouvée");
       }
+
+      // Suppression des images associées à la voiture du serveur
+      for (const image of voiture.Images) {
+        const filePath = path.resolve("Public/Uploads", image.Nom);
+        try {
+          await fs.unlink(filePath);
+        } catch (err) {
+          if (err.code !== "ENOENT") {
+            console.error(
+              `Erreur lors de la suppression du fichier ${filePath}:`,
+              err
+            );
+            throw err;
+          }
+        }
+      }
+
+      // Suppression des entrées de la base de données
+      await Images.destroy({
+        where: { Id_voiture: voiture.Id_voiture },
+        transaction,
+      });
+      await Voiture.destroy({
+        where: { Id_voiture: voiture.Id_voiture },
+        transaction,
+      });
+
+      // Commit de la transaction pour appliquer les changements
+      await transaction.commit();
+      res.send("Voiture et ses images associées supprimées avec succès");
     } catch (error) {
-      res.status(500).json({ error: "Erreur serveur" });
+      // Rollback de la transaction en cas d'erreur
+      await transaction.rollback();
+      console.error(
+        "Erreur serveur lors de la suppression de la voiture et de ses images associées:",
+        error
+      );
+      res.status(500).send("Erreur serveur lors de la suppression");
     }
   }
-}
-
-function isValideKilometrage(km) {
-  return typeof km === "number" && km >= 0;
-}
-
-function isValideAnnee(annee) {
-  const currentYear = new Date().getFullYear();
-  return typeof annee === "number" && annee > 1900 && annee <= currentYear;
-}
-
-function isValidePrix(prix) {
-  return typeof prix === "number" && prix > 0;
 }
 
 module.exports = VoitureController;
