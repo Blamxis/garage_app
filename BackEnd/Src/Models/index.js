@@ -53,7 +53,7 @@ Annonce.belongsTo(Voiture, { foreignKey: 'Id_voiture' });
 Annonce.belongsTo(User, { foreignKey: 'Id_user' });
 
 Voiture.hasOne(Annonce, { foreignKey: 'Id_voiture' });
-User.hasMany(Annonce, { foreignKey: 'Id_User' });
+User.hasMany(Annonce, { foreignKey: 'Id_user' });
 
 module.exports = {
     User,
@@ -69,5 +69,6 @@ module.exports = {
     Images,
     EquipementOptions,
     VoitureEquipements,
-    Annonce
+    Annonce,
+    sequelize
 };
