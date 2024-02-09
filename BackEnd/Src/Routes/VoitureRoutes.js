@@ -10,20 +10,12 @@ class VoitureRoutes {
     }
 
     initRoutes() {
-        // Route pour créer une nouvelle voiture (disponible pour admin et employé)
+        
+        this.router.get('/voitures', [AuthMiddleware.authenticate], VoitureController.getAllVoitures);
+        this.router.get('/voitures/:id', [AuthMiddleware.authenticate], VoitureController.getVoitureById);
         this.router.post('/voitures', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], VoitureController.createVoiture);
-
-        // Routes disponibles uniquement pour l'admin
-        this.router.get('/admin/voitures', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], VoitureController.getAllVoitures);
-        this.router.get('/admin/voitures/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], VoitureController.getVoitureById);
-        this.router.put('/admin/voitures/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], VoitureController.updateVoiture);
-        this.router.delete('/admin/voitures/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], VoitureController.deleteVoiture);
-
-        // Routes disponibles pour les employés
-        this.router.get('/employee/voitures', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], VoitureController.getAllVoitures);
-        this.router.get('/employee/voitures/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], VoitureController.getVoitureById);
-        this.router.put('/employee/voitures/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], VoitureController.updateVoiture);
-        this.router.delete('/employee/voitures/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], VoitureController.deleteVoiture);
+        this.router.put('/voitures/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], VoitureController.updateVoiture);
+        this.router.delete('/voitures/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], VoitureController.deleteVoiture);
     }
 
     getRouter() {
@@ -32,3 +24,4 @@ class VoitureRoutes {
 }
 
 module.exports = new VoitureRoutes().getRouter();
+
