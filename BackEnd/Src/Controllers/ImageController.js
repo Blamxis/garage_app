@@ -9,38 +9,41 @@ class ImageController {
     
     async create(req, res) {
         try {
-            await imageUploader.single('image')(req, res, async (err) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).send(err.message);
-                }
-
-                const mimeType = mime.lookup(req.file.path);
-
-                const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
-                if (!mimeType || !validTypes.includes(mimeType)) {
-                    await fs.unlink(req.file.path); 
-                    return res.status(400).send('Type de fichier non valide');
-                }
-
-                const newImage = await Images.create({
-                    Nom: req.file.filename,
-                    Url: req.file.path,
-                    Id_voiture: req.body.Id_voiture
-                });
-
-                res.status(201).json(newImage);
+          if (!req.files || req.files.length === 0) {
+            return res.status(400).send("Aucun fichier fourni");
+          }
+    
+          const imagesData = await Promise.all(req.files.map(async (file) => {
+            const mimeType = mime.lookup(file.path);
+            const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
+            if (!validTypes.includes(mimeType)) {
+              await fsp.unlink(file.path);
+              return { error: "Type de fichier non valide" };
+            }
+    
+            return Images.create({
+              Nom: file.filename,
+              Url: file.path,
+              Id_voiture: req.body.Id_voiture,
             });
+          }));
+    
+          res.status(201).json(imagesData.filter(image => !image.error));
         } catch (error) {
-            console.error(error);
-            res.status(500).send(error.message);
+          console.error(error);
+          res.status(500).send(error.message);
         }
-    }
+      }
+      
 
     async getAll(_, res) {
         try {
             const images = await Images.findAll();
-            res.json(images);
+            const imagesWithUrls = images.map(image => ({
+                ...image.toJSON(),
+                Url: `Public/Uploads/${image.Nom}`
+            }));
+            res.json(imagesWithUrls);
         } catch (error) {
             res.status(500).send(error.message);
         }
@@ -50,7 +53,8 @@ class ImageController {
         try {
             const image = await Images.findByPk(req.params.id);
             if (image) {
-                res.json(image);
+                const imagePath = `Public/Uploads/${image.Nom}`;
+                res.json(imagePath);
             } else {
                 res.status(404).send('Image non trouvée');
             }
