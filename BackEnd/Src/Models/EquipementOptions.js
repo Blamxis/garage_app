@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 
-class Options extends Model {}
+class EquipementOptions extends Model {}
 
 module.exports = (sequelize) => {
-    Options.init ({
+    EquipementOptions.init ({
         Id_options : {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -20,5 +20,5 @@ module.exports = (sequelize) => {
         timestamps: false
     });
 
-    return Options;
+    return EquipementOptions;
 }
