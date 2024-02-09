@@ -57,7 +57,7 @@ class MessageController {
     try {
       const { Objet, Type, Nom, Prenom, Email, Telephone, Description, Id_user } = req.body;
 
-      if (!Nom || !Prenom || !Email || !Telephone || !Description || !Type || !Id_user) {
+      if (!Nom || !Prenom || !Email || !Telephone || !Description || !Type) {
         return res.status(400).json({ error: "Données invalides" });
       }
 
