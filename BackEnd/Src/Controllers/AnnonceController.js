@@ -1,7 +1,7 @@
-const { Annonce } = require("../Models/index");
+const { Annonce, Voiture, Modele } = require("../Models/index");
 
 class AnnonceController {
-  static convertirDateFrancaiseEnSQL(dateFrancaise) {
+  static async convertirDateFrancaiseEnSQL(dateFrancaise) {
     const [jour, mois, annee] = dateFrancaise.split("/");
     return `${annee}-${mois}-${jour}`;
   }
@@ -23,7 +23,7 @@ class AnnonceController {
 
       res.status(201).json(newAnnonce);
     } catch (error) {
-        console.error(error);
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
@@ -31,14 +31,14 @@ class AnnonceController {
   static async updateAnnonce(req, res) {
     const { id } = req.params;
     try {
-      const { Id_voiture, Id_user } = req.body;
+      const { Id_voiture, Id_user, IsVisible } = req.body;
 
       // Update de la date de publication avec la date actuelle
       const datePublication = new Date();
 
       // Update de l'annonce
       const [updated] = await Annonce.update(
-        { Id_voiture, Id_user, Date_publication: datePublication },
+        { Id_voiture, Id_user, Date_publication: datePublication, IsVisible },
         { where: { Id_annonces: id } }
       );
 
@@ -49,18 +49,22 @@ class AnnonceController {
         res.status(200).json(updatedAnnonce);
       }
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
 
   static async getAllAnnonces(_, res) {
     try {
-      const annonces = await Annonce.findAll();
+      const annonces = await Annonce.findAll({
+        include: [{ model: Voiture, include: [Modele] }]
+      });
       if (annonces.length === 0) {
         return res.status(200).json({ message: "Aucune annonce pour le moment" });
       }
       res.status(200).json(annonces);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
@@ -74,6 +78,7 @@ class AnnonceController {
       }
       res.status(200).json(annonce);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
@@ -88,6 +93,7 @@ class AnnonceController {
         res.status(404).json({ message: "Annonce non trouvée" });
       }
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
