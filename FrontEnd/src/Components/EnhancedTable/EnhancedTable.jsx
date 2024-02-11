@@ -17,13 +17,10 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Toolbar,
-  Tooltip,
   Select,
   InputLabel,
   FormControl,
   MenuItem,
-  Typography,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
@@ -55,25 +52,6 @@ const EnhancedTableHead = ({
       <TableCell>Actions</TableCell>
     </TableRow>
   </TableHead>
-);
-
-const EnhancedTableToolbar = ({ numSelected, onAdd }) => (
-  <Toolbar className="custom-toolbar">
-    {numSelected > 0 ? (
-      <Typography color="inherit" variant="subtitle1" component="div">
-        {numSelected} sélectionné(s)
-      </Typography>
-    ) : (
-      <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        Tableau de Gestions
-      </Typography>
-    )}
-    <Tooltip title="Ajouter">
-      <Button startIcon={<AddIcon />} onClick={onAdd} color="warning">
-        Ajouter
-      </Button>
-    </Tooltip>
-  </Toolbar>
 );
 
 const DataRowCard = ({
@@ -118,6 +96,8 @@ const EnhancedTable = ({
   onDelete,
   onUploadImages,
   idField,
+  userId,
+  voitureList,
 }) => {
   const [selected, setSelected] = useState([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -208,7 +188,6 @@ const EnhancedTable = ({
   // Gestionnaire pour enregistrer les données éditées
   const handleEditDialogSave = () => {
     try {
-      
       const voitureDataToEdit = {
         ...currentData,
         ModelNom: currentData.ModelNom || "",
@@ -262,27 +241,33 @@ const EnhancedTable = ({
   };
 
   const handleUploadSave = async () => {
-    handleUploadDialogClose(); 
+    handleUploadDialogClose();
     if (selectedFiles.length > 0 && currentItemIdForUpload) {
       try {
         onUploadImages(currentItemIdForUpload, selectedFiles);
         setUpdateSuccessMessage("Les images ont été uploadées avec succès.");
-  
       } catch (error) {
-        console.error('Erreur lors de l\'upload des images :', error);
+        console.error("Erreur lors de l'upload des images :", error);
       }
     } else {
-      console.error('Aucun fichier sélectionné ou ID de voiture manquant.');
+      console.error("Aucun fichier sélectionné ou ID de voiture manquant.");
     }
-    setSelectedFiles([]); 
+    setSelectedFiles([]);
     setCurrentItemIdForUpload(null);
   };
 
-  
   return (
     <Box sx={{ width: "100%" }}>
+      {/* Bouton Ajouter visible en tout temps au-dessus du contenu */}
+      <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
+        <Button startIcon={<AddIcon />} onClick={handleAddDialogOpen} color="warning">
+          Ajouter
+        </Button>
+      </Box>
+  
       <Paper sx={{ mb: 2 }}>
         {isMobile ? (
+          // Affichage mobile : DataRowCard pour chaque élément de données
           data.map((row) => (
             <DataRowCard
               key={row[idField]}
@@ -293,11 +278,8 @@ const EnhancedTable = ({
             />
           ))
         ) : (
+          // Affichage desktop : Table avec EnhancedTableToolbar et EnhancedTableHead
           <>
-            <EnhancedTableToolbar
-              numSelected={selected.length}
-              onAdd={handleAddDialogOpen}
-            />
             <Table className="custom-table">
               <EnhancedTableHead
                 numSelected={selected.length}
@@ -306,98 +288,127 @@ const EnhancedTable = ({
                 columns={columns}
               />
               <TableBody>
-                {data.map((row) => {
-                  const isItemSelected = selected.indexOf(row[idField]) !== -1;
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row[idField]}
-                      selected={isItemSelected}
-                      className="custom-table-row"
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          onChange={(event) => {
-                            event.stopPropagation();
-                            handleClick(event, row[idField]);
-                          }}
-                        />
-                      </TableCell>
-                      {columns.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          className="custom-table-cell"
-                        >
-                          {column.render ? column.render(row) : row[column.id]}
+                {data.length > 0 ? (
+                  data.map((row) => {
+                    const isItemSelected = selected.indexOf(row[idField]) !== -1;
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row[idField]}
+                        selected={isItemSelected}
+                        className="custom-table-row"
+                      >
+                        <TableCell padding="checkbox" className="custom-table-cell">
+                          <Checkbox
+                            checked={isItemSelected}
+                            onChange={(event) => handleClick(event, row[idField])}
+                          />
                         </TableCell>
-                      ))}
-                      <TableCell>
-                        <IconButton onClick={() => handleEditDialogOpen(row)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => handleDeleteDialogOpen(row[idField])}
-                          color="error"
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => handleUploadDialogOpen(row[idField])}
-                          color="primary"
-                        >
-                          <PhotoCameraIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                        {columns.map((column) => (
+                          <TableCell key={column.id} className="custom-table-cell">
+                            {column.render ? column.render(row) : row[column.id] ?? "N/A"}
+                          </TableCell>
+                        ))}
+                        <TableCell className="custom-table-cell">
+                          <IconButton onClick={() => handleEditDialogOpen(row)}>
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton onClick={() => handleDeleteDialogOpen(row[idField])} color="error">
+                            <DeleteIcon />
+                          </IconButton>
+                          <IconButton onClick={() => handleUploadDialogOpen(row[idField])} color="primary">
+                            <PhotoCameraIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={columns.length + 2} align="center">
+                      Aucune données disponible
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </>
         )}
       </Paper>
+
       {/* Add Dialog */}
+
       <Dialog open={isAddDialogOpen} onClose={handleAddDialogClose}>
         <DialogContent>
-          {columns.map((column) =>
-            column.id === "ModelNom" ? (
-              <FormControl key={column.id} fullWidth margin="normal">
-                <InputLabel>{column.label}</InputLabel>
-                <Select
+          {columns.map((column) => {
+            if (column.id === "ModelNom") {
+              return (
+                <FormControl key={column.id} fullWidth margin="normal">
+                  <InputLabel>{column.label}</InputLabel>
+                  <Select
+                    label={column.label}
+                    value={newData[column.id] || ""}
+                    onChange={(e) =>
+                      setNewData({ ...newData, [column.id]: e.target.value })
+                    }
+                  >
+                    <MenuItem value="" disabled>
+                      Sélectionnez un modèle
+                    </MenuItem>
+                    {modelList.map((model) => (
+                      <MenuItem key={model.id} value={model.nom}>
+                        {model.nom}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              );
+            } else if (column.id === "Id_voiture") {
+              return (
+                <FormControl key="Id_voiture" fullWidth margin="normal">
+                  <InputLabel>Voiture</InputLabel>
+                  <Select
+                    label="Voiture"
+                    value={newData.Id_voiture || ""}
+                    onChange={(e) =>
+                      setNewData({ ...newData, Id_voiture: e.target.value })
+                    }
+                  >
+                    <MenuItem value="" disabled>
+                      Sélectionnez une voiture
+                    </MenuItem>
+                    {voitureList.map((voiture) => (
+                      <MenuItem
+                        key={voiture.Id_voiture}
+                        value={voiture.Id_voiture}
+                      >
+                        {voiture.Modele || "Modèle inconnu"}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              );
+            } else {
+              return (
+                <TextField
+                  key={column.id}
                   label={column.label}
-                  value={newData[column.id] || ""}
+                  value={
+                    column.id === "Id_user" ? userId : newData[column.id] || ""
+                  }
                   onChange={(e) =>
                     setNewData({ ...newData, [column.id]: e.target.value })
                   }
-                >
-                  <MenuItem value="" disabled>
-                    Sélectionnez un modèle
-                  </MenuItem>
-                  {modelList.map((model) => (
-                    <MenuItem key={model.id} value={model.nom}>
-                      {model.nom}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            ) : (
-              <TextField
-                key={column.id}
-                label={column.label}
-                value={newData[column.id] || ""}
-                onChange={(e) =>
-                  setNewData({ ...newData, [column.id]: e.target.value })
-                }
-                fullWidth
-                margin="normal"
-                variant="outlined"
-              />
-            )
-          )}
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                />
+              );
+            }
+          })}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleAddDialogClose} color="error">
@@ -410,60 +421,92 @@ const EnhancedTable = ({
       </Dialog>
 
       {/* Edit Dialog */}
-      
+
       <Dialog open={isEditDialogOpen} onClose={handleEditDialogClose}>
-        <DialogContent>
-          {columns.map((column) =>
-            column.id === "ModelNom" ? (
-              <FormControl key={column.id} fullWidth margin="normal">
-                <InputLabel>{column.label}</InputLabel>
-                <Select
-                  label={column.label}
-                  value={currentData[column.id] || ""}
-                  onChange={(e) =>
-                    setCurrentData({
-                      ...currentData,
-                      [column.id]: e.target.value,
-                    })
-                  }
-                >
-                  <MenuItem value="" disabled>
-                    Sélectionnez un modèle
-                  </MenuItem>
-                  {modelList.map((model) => (
-                    <MenuItem key={model.id} value={model.nom}>
-                      {model.nom}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            ) : (
-              <TextField
-                key={column.id}
-                label={column.label}
-                value={currentData[column.id] || ""}
-                onChange={(e) =>
-                  setCurrentData({
-                    ...currentData,
-                    [column.id]: e.target.value,
-                  })
-                }
-                fullWidth
-                margin="normal"
-                variant="outlined"
-              />
-            )
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleEditDialogClose} color="error">
-            Annuler
-          </Button>
-          <Button onClick={handleEditDialogSave} color="success">
-            Enregistrer
-          </Button>
-        </DialogActions>
-      </Dialog>
+  <DialogContent>
+    {columns.map((column) => {
+      if (column.id === "ModelNom") {
+        // Sélection d'un modèle (comme avant)
+        return (
+          <FormControl key={column.id} fullWidth margin="normal">
+            <InputLabel>{column.label}</InputLabel>
+            <Select
+              label={column.label}
+              value={currentData[column.id] || ""}
+              onChange={(e) =>
+                setCurrentData({
+                  ...currentData,
+                  [column.id]: e.target.value,
+                })
+              }
+            >
+              <MenuItem value="" disabled>
+                Sélectionnez un modèle
+              </MenuItem>
+              {modelList.map((model) => (
+                <MenuItem key={model.id} value={model.nom}>
+                  {model.nom}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        );
+      } else if (column.id === "Id_voiture") {
+        // Sélection d'une voiture avec affichage du modèle associé
+        return (
+          <FormControl key="Id_voiture" fullWidth margin="normal">
+            <InputLabel>Voiture</InputLabel>
+            <Select
+              label="Voiture"
+              value={currentData[column.id] || ""}
+              onChange={(e) =>
+                setCurrentData({
+                  ...currentData,
+                  [column.id]: e.target.value,
+                })
+              }
+            >
+              <MenuItem value="" disabled>
+                Sélectionnez une voiture
+              </MenuItem>
+              {voitureList.map((voiture) => (
+                <MenuItem key={voiture.Id_voiture} value={voiture.Id_voiture}>
+                  {voiture.Modele || "Modèle inconnu"} {voiture.nom}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        );
+      } else {
+        
+        return (
+          <TextField
+            key={column.id}
+            label={column.label}
+            value={currentData[column.id] || ""}
+            onChange={(e) =>
+              setCurrentData({
+                ...currentData,
+                [column.id]: e.target.value,
+              })
+            }
+            fullWidth
+            margin="normal"
+            variant="outlined"
+          />
+        );
+      }
+    })}
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleEditDialogClose} color="error">
+      Annuler
+    </Button>
+    <Button onClick={handleEditDialogSave} color="success">
+      Enregistrer
+    </Button>
+  </DialogActions>
+</Dialog>
 
       {/*Delete Dialog*/}
 
@@ -487,14 +530,8 @@ const EnhancedTable = ({
 
       <Dialog open={isUploadDialogOpen} onClose={handleUploadDialogClose}>
         <DialogContent>
-          <DialogContentText>
-            Téléchargez vos images.
-          </DialogContentText>
-          <input
-            type="file"
-            multiple
-            onChange={handleFileSelect}
-          />
+          <DialogContentText>Téléchargez vos images.</DialogContentText>
+          <input type="file" multiple onChange={handleFileSelect} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleUploadDialogClose} color="error">
@@ -540,9 +577,11 @@ EnhancedTable.propTypes = {
   onAdd: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onUploadImages : PropTypes.func,
+  onUploadImages: PropTypes.func,
   idField: PropTypes.string.isRequired,
   modelList: PropTypes.array,
+  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  voitureList: PropTypes.array,
 };
 
 export default EnhancedTable;
