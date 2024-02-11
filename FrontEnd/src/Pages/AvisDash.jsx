@@ -13,7 +13,7 @@ function AvisDash() {
       const apiURL = import.meta.env.VITE_API_URL;
       const authToken = localStorage.getItem('authToken');
 
-      axios.get(`${apiURL}/admin/avis`, {
+      axios.get(`${apiURL}/avis`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       }).then(response => {
         setAvisData(response.data);
@@ -49,7 +49,7 @@ function AvisDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem('authToken');
 
-    axios.put(`${apiURL}admin/avis/${avisDataToEdit.Id_avis}`, avisDataToEdit, {
+    axios.put(`${apiURL}/avis/${avisDataToEdit.Id_avis}`, avisDataToEdit, {
       headers: { 'Authorization': `Bearer ${authToken}` }
     }).then(response => {
       const updatedData = avisData.map(avis =>
@@ -67,7 +67,7 @@ function AvisDash() {
     const authToken = localStorage.getItem('authToken');
 
     const deletePromises = selectedAvisIds.map(avisId =>
-      axios.delete(`${apiURL}/admin/avis/${avisId}`, {
+      axios.delete(`${apiURL}/avis/${avisId}`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       })
     );
