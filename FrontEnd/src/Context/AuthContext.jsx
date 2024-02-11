@@ -17,6 +17,8 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [decodedToken, setDecodedToken] = useState(null);
+  const [userRole, setUserRole] = useState("");
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
 
@@ -26,6 +28,8 @@ export const AuthProvider = ({ children }) => {
       const decoded = jwtDecode(token);
       setDecodedToken(decoded);
       setIsAuthenticated(true);
+      setUserRole(decoded.role);
+      setUserId(decoded.userId);
     }
   }, []);
 
@@ -34,16 +38,20 @@ export const AuthProvider = ({ children }) => {
     const decoded = jwtDecode(token);
     setDecodedToken(decoded);
     setIsAuthenticated(true);
+    setUserRole(decoded.role);
+    setUserId(decoded.userId);
   };
 
   const logout = () => {
     localStorage.removeItem('authToken');
     setDecodedToken(null);
     setIsAuthenticated(false);
+    setUserRole("");
+    setUserId(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, decodedToken, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, decodedToken, userRole, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
