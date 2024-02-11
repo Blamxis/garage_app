@@ -1,5 +1,5 @@
 import './topnav.scss'
-import { FaBars } from 'react-icons/fa'; // Importez l'icône FaBars de react-icons/fa
+import { FaBars } from 'react-icons/fa';
 
 const TopNav = () => {
     const openSidebar = () => {
