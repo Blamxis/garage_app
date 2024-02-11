@@ -11,7 +11,7 @@ import Avis from '../Pages/Avis';
 import Contact from '../Pages/Contact';
 import Connexion from '../Pages/Connexion';
 import DashboardAdmin from '../Pages/DashboardAdmin/DashboardAdmin';
-import DashboardEmployee from '../Pages/DashboardEmployee';
+import DashboardEmployee from '../Pages/DashboardEmployee/DashboardEmployee';
 import NotFoundPage from '../Pages/NotFoundPage';
 
 // Routes Dashboard
@@ -57,14 +57,12 @@ const AppRoutes = () => {
       <Route path="/employee/dashboard" element={isAuthenticated ? <DashboardEmployee /> : <Navigate to="/connexion" />}>
       <Route index element={<Navigate to="annonces" />} />
         <Route path="annonces" element={<Annonces />} />
-        <Route path="services" element={<Services />} />
         <Route path="voitures" element={<Voitures />} />
         <Route path="marques" element={<Marques />} />
         <Route path="modeles" element={<Modeles />} />
         <Route path="options" element={<OptionsEquipements />} />
         <Route path="messages" element={<Messages />} />
         <Route path="avis-clients" element={<AvisClients />} />
-        <Route path="horaires-garage" element={<HorairesGarage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
