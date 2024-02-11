@@ -10,18 +10,16 @@ class MessageRoutes {
     }
 
     initRoutes() {
-        this.router.post('/messages', MessageController.createMessage);
-        // Routes disponible uniquement pour admin
-        this.router.get('/admin/messages', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], MessageController.getAllMessages);
-        this.router.get('/admin/messages/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], MessageController.getMessageById);
-        this.router.put('/admin/messages/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], MessageController.updateMessage);
-        this.router.delete('/admin/messages/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], MessageController.deleteMessage);
+        // La route pour créer un message reste ouverte sans authentification spécifique
+        // en supposant que tout utilisateur authentifié peut envoyer un message
+        this.router.post('/messages', AuthMiddleware.authenticate, MessageController.createMessage);
 
-        // Routes disponible pour employee
-        this.router.get('/employee/messages', [ AuthMiddleware.authenticate, RoleMiddleware.isEmployee ], MessageController.getAllMessages);
-        this.router.get('/employee/messages/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isEmployee ], MessageController.getMessageById);
-        this.router.put('/employee/messages/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isEmployee ], MessageController.updateMessage);
-        this.router.delete('/employee/messages/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isEmployee ], MessageController.deleteMessage);
+        // Routes pour gérer les messages, disponibles à la fois pour l'admin et l'employé
+        // Utilisation d'une méthode unique isEmployeeOrAdmin (à définir si elle n'existe pas déjà) pour simplifier
+        this.router.get('/messages', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], MessageController.getAllMessages);
+        this.router.get('/messages/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], MessageController.getMessageById);
+        this.router.put('/messages/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], MessageController.updateMessage);
+        this.router.delete('/messages/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], MessageController.deleteMessage);
     }
 
     getRouter() {
@@ -30,3 +28,4 @@ class MessageRoutes {
 }
 
 module.exports = new MessageRoutes().getRouter();
+

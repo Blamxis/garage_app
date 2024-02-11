@@ -10,20 +10,15 @@ class MarqueRoutes {
     }
 
     initRoutes() {
-        // Route pour créer une nouvelle marque (disponible pour admin et employé)
+        // Route pour créer une nouvelle marque, disponible pour l'admin et l'employé
         this.router.post('/marques', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], MarqueController.createMarque);
 
-        // Routes disponibles uniquement pour l'admin
-        this.router.get('/admin/marques', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], MarqueController.getAllMarques);
-        this.router.get('/admin/marques/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], MarqueController.getMarqueById);
-        this.router.put('/admin/marques/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], MarqueController.updateMarque);
-        this.router.delete('/admin/marques/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], MarqueController.deleteMarque);
-
-        // Routes disponibles pour les employés
-        this.router.get('/employee/marques', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], MarqueController.getAllMarques);
-        this.router.get('/employee/marques/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], MarqueController.getMarqueById);
-        this.router.put('/employee/marques/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], MarqueController.updateMarque);
-        this.router.delete('/employee/marques/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], MarqueController.deleteMarque);
+        // Routes pour gérer les marques, disponibles à la fois pour l'admin et l'employé
+        // La vérification du rôle se fait désormais via une méthode unique isEmployeeOrAdmin pour simplifier
+        this.router.get('/marques', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], MarqueController.getAllMarques);
+        this.router.get('/marques/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], MarqueController.getMarqueById);
+        this.router.put('/marques/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], MarqueController.updateMarque);
+        this.router.delete('/marques/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], MarqueController.deleteMarque);
     }
 
     getRouter() {
@@ -32,3 +27,4 @@ class MarqueRoutes {
 }
 
 module.exports = new MarqueRoutes().getRouter();
+

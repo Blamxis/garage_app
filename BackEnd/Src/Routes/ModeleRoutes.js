@@ -10,20 +10,15 @@ class ModeleRoutes {
     }
 
     initRoutes() {
-        // Route pour créer un nouveau modèle (disponible pour admin et employé)
+        // Route pour créer un nouveau modèle, disponible pour l'admin et l'employé
         this.router.post('/modeles', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], ModeleController.createModele);
 
-        // Routes disponibles uniquement pour l'admin
-        this.router.get('/admin/modeles', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], ModeleController.getAllModeles);
-        this.router.get('/admin/modeles/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], ModeleController.getModeleById);
-        this.router.put('/admin/modeles/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], ModeleController.updateModele);
-        this.router.delete('/admin/modeles/:id', [AuthMiddleware.authenticate, RoleMiddleware.isAdmin], ModeleController.deleteModele);
-
-        // Routes disponibles pour les employés
-        this.router.get('/employee/modeles', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], ModeleController.getAllModeles);
-        this.router.get('/employee/modeles/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], ModeleController.getModeleById);
-        this.router.put('/employee/modeles/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], ModeleController.updateModele);
-        this.router.delete('/employee/modeles/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployee], ModeleController.deleteModele);
+        // Routes pour gérer les modèles, disponibles à la fois pour l'admin et l'employé
+        // La vérification du rôle se fait désormais via une méthode unique isEmployeeOrAdmin pour simplifier
+        this.router.get('/modeles', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], ModeleController.getAllModeles);
+        this.router.get('/modeles/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], ModeleController.getModeleById);
+        this.router.put('/modeles/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], ModeleController.updateModele);
+        this.router.delete('/modeles/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], ModeleController.deleteModele);
     }
 
     getRouter() {
@@ -32,3 +27,4 @@ class ModeleRoutes {
 }
 
 module.exports = new ModeleRoutes().getRouter();
+
