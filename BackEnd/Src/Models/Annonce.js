@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 
-class Annonces extends Model {}
+class Annonce extends Model {}
 
 module.exports = (sequelize) => {
-    Annonces.init ({
+    Annonce.init ({
         Id_annonces : {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -16,6 +16,11 @@ module.exports = (sequelize) => {
         Date_publication: {
             type: DataTypes.DATE,
             allowNull: false
+        },
+        IsVisible: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
         },
         Id_voiture: {
             type: DataTypes.INTEGER,
@@ -40,5 +45,5 @@ module.exports = (sequelize) => {
         timestamps: false
     });
 
-    return Annonces;
+    return Annonce;
 }
