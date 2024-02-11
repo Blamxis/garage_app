@@ -10,22 +10,18 @@ class AvisRoutes {
     }
 
     initRoutes() {
-        this.router.post('/avis', AvisController.createAvis);
+        // Route pour créer un avis, disponible pour tout utilisateur authentifié
+        this.router.post('/avis', AuthMiddleware.authenticate, AvisController.createAvis);
 
-        // Route pour récupérer les avis approuvés pour le front
+        // Route pour récupérer les avis approuvés, disponible sans authentification spécifique
         this.router.get('/avis/approved', AvisController.getAllApprovedAvis);
 
-        // Routes disponible uniquement pour admin
-        this.router.get('/admin/avis', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], AvisController.getAllAvis);
-        this.router.get('/admin/avis/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], AvisController.getAvisById);
-        this.router.put('/admin/avis/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], AvisController.updateAvis);
-        this.router.delete('/admin/avis/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isAdmin ], AvisController.deleteAvis);
-
-        // Routes disponible pour employee
-        this.router.get('/employee/avis/', [ AuthMiddleware.authenticate, RoleMiddleware.isEmployee ], AvisController.getAllAvis);
-        this.router.get('/employee/avis/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isEmployee ], AvisController.getAvisById);
-        this.router.put('/employee/avis/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isEmployee ], AvisController.updateAvis);
-        this.router.delete('/employee/avis/:id', [ AuthMiddleware.authenticate, RoleMiddleware.isEmployee ], AvisController.deleteAvis);
+        // Routes pour gérer les avis, disponibles pour les admins et les employés
+        // Utilisation d'un middleware pour vérifier si l'utilisateur est un admin ou un employé
+        this.router.get('/avis', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], AvisController.getAllAvis);
+        this.router.get('/avis/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], AvisController.getAvisById);
+        this.router.put('/avis/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], AvisController.updateAvis);
+        this.router.delete('/avis/:id', [AuthMiddleware.authenticate, RoleMiddleware.isEmployeeOrAdmin], AvisController.deleteAvis);
     }
 
     getRouter() {
@@ -34,4 +30,5 @@ class AvisRoutes {
 }
 
 module.exports = new AvisRoutes().getRouter();
+
 
