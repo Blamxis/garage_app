@@ -13,7 +13,7 @@ function ModeleDash() {
       const apiURL = import.meta.env.VITE_API_URL;
       const authToken = localStorage.getItem('authToken');
 
-      axios.get(`${apiURL}/admin/modeles`, {
+      axios.get(`${apiURL}/modeles`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       }).then(response => {
         setModelesData(response.data);
@@ -36,7 +36,7 @@ function ModeleDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem('authToken');
 
-    axios.post(`${apiURL}/admin/modeles`, modeleDataToAdd, {
+    axios.post(`${apiURL}/modeles`, modeleDataToAdd, {
       headers: { 'Authorization': `Bearer ${authToken}` }
     }).then(response => {
       setModelesData([...modelesData, response.data]);
@@ -49,7 +49,7 @@ function ModeleDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem('authToken');
 
-    axios.put(`${apiURL}/admin/modeles/${modeleDataToEdit.Id_modeles}`, modeleDataToEdit, {
+    axios.put(`${apiURL}/modeles/${modeleDataToEdit.Id_modeles}`, modeleDataToEdit, {
       headers: { 'Authorization': `Bearer ${authToken}` }
     }).then(response => {
       const updatedData = modelesData.map(modele =>
@@ -66,7 +66,7 @@ function ModeleDash() {
     const authToken = localStorage.getItem('authToken');
 
     const deletePromises = selectedModeleIds.map(modeleId =>
-      axios.delete(`${apiURL}/admin/modeles/${modeleId}`, {
+      axios.delete(`${apiURL}/modeles/${modeleId}`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       })
     );

@@ -13,7 +13,7 @@ function MessagesDash() {
             const apiURL = import.meta.env.VITE_API_URL;
             const authToken = localStorage.getItem('authToken');
 
-            axios.get(`${apiURL}/admin/messages`, {
+            axios.get(`${apiURL}/messages`, {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             }).then(response => {
                 setMessagesData(response.data);
@@ -67,7 +67,7 @@ function MessagesDash() {
         const apiURL = import.meta.env.VITE_API_URL;
         const authToken = localStorage.getItem('authToken');
 
-        axios.put(`${apiURL}/admin/messages/${messageDataToEdit.Id_messages}`, messageDataToEdit, {
+        axios.put(`${apiURL}/messages/${messageDataToEdit.Id_messages}`, messageDataToEdit, {
             headers: { 'Authorization': `Bearer ${authToken}` }
         }).then(response => {
             const updatedData = messagesData.map(message =>
@@ -84,7 +84,7 @@ function MessagesDash() {
         const authToken = localStorage.getItem('authToken');
 
         const deletePromises = selectedMessageIds.map(messageId =>
-            axios.delete(`${apiURL}/admin/messages/${messageId}`, {
+            axios.delete(`${apiURL}/messages/${messageId}`, {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             })
         );

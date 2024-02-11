@@ -27,10 +27,10 @@ function VoitureDash() {
               axios.get(`${apiURL}/voitures`, {
                 headers: { Authorization: `Bearer ${authToken}` },
               }),
-              axios.get(`${apiURL}/admin/images`, {
+              axios.get(`${apiURL}/images`, {
                 headers: { Authorization: `Bearer ${authToken}` },
               }),
-              axios.get(`${apiURL}/admin/modeles`, {
+              axios.get(`${apiURL}/modeles`, {
                 headers: { Authorization: `Bearer ${authToken}` },
               }),
             ]);
@@ -253,7 +253,7 @@ function VoitureDash() {
                 render: (row) => {
                   // Vérifie si la voiture a au moins une image
                   if (row.images && row.images.length > 0) {
-                    const firstImage = row.images[0]; // Prendre la première image du tableau
+                    const firstImage = row.images[0];
                     return (
                       <img
                         src={`${firstImage.Url}`}

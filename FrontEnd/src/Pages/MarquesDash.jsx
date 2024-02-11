@@ -13,7 +13,7 @@ function MarquesDash() {
       const apiURL = import.meta.env.VITE_API_URL;
       const authToken = localStorage.getItem('authToken');
 
-      axios.get(`${apiURL}/admin/marques`, {
+      axios.get(`${apiURL}/marques`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       }).then(response => {
         setMarquesData(response.data);
@@ -49,7 +49,7 @@ function MarquesDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem('authToken');
 
-    axios.put(`${apiURL}/admin/marques/${marqueDataToEdit.Id_marques}`, marqueDataToEdit, {
+    axios.put(`${apiURL}/marques/${marqueDataToEdit.Id_marques}`, marqueDataToEdit, {
       headers: { 'Authorization': `Bearer ${authToken}` }
     }).then(response => {
       console.log("Réponse de la mise à jour :", response);
@@ -67,7 +67,7 @@ function MarquesDash() {
     const authToken = localStorage.getItem('authToken');
 
     const deletePromises = selectedMarqueIds.map(marqueId =>
-      axios.delete(`${apiURL}/admin/marques/${marqueId}`, {
+      axios.delete(`${apiURL}/marques/${marqueId}`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       })
     );
