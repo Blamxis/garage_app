@@ -17,6 +17,14 @@ module.exports = (sequelize) => {
             type: DataTypes.DATE,
             allowNull: false
         },
+        Carburant: {
+            type: DataTypes.STRING(30),
+            allowNull: false
+        },
+        Transmission: {
+            type: DataTypes.STRING(30),
+            allowNull: false
+        },
         IsVisible: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
