@@ -13,7 +13,7 @@ body {
     color: $txtColor;
     font-size: $fontSizeNormal;
     line-height: 1.5;
-    background-color: $bodyBg;
+    background-color: $color-secondary;
     overflow-x: hidden;
 }
 
@@ -269,3 +269,193 @@ li {
       }
     }
   }
+
+  // Style page Parc Auto
+
+  .page-container {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    background-color: $color-secondary;
+  }
+  
+  .parc-auto-container {
+    overflow: auto;
+    margin: 0 auto;
+    padding: 20px 0;
+    width: calc(100% - 40px);
+    max-width: 100vw;
+
+    .annonce-counter {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 1.2rem;
+      color: $color-accent; 
+      font-weight: bold; 
+    }
+  
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      margin: 0 auto;
+  
+      @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: center;
+      }
+  
+      .filter-select, .filter-input {
+        .MuiInputLabel-root, .MuiSelect-select, .MuiInputBase-input {
+          color: $color-accent;
+          font-weight: bold;
+        }
+  
+        .MuiOutlinedInput-notchedOutline {
+          border-color: $color-background-dark;
+        }
+      }
+    }
+  
+    .parc-auto-title {
+      color: $color-accent;
+      text-align: center;
+      margin: 20px 0;
+    }
+  
+    .parc-auto-loading, .parc-auto-error {
+      text-align: center;
+      color: #d32f2f;
+      margin-top: 20px;
+    }
+  
+    .parc-auto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+  
+      .parc-auto-grid-item {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        &:hover {
+          transform: translateY(-5px);
+          transition: transform 0.3s ease-in-out;
+        }
+  
+        .MuiCard-root {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+  
+          .MuiCardMedia-root {
+            height: 140px;
+          }
+  
+          .MuiCardContent-root {
+            flex-grow: 1;
+          }
+        }
+      }
+    }
+  }
+  
+  .footer {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  // CarInfos
+
+  .carInfoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh - 189px); // Ajustez la soustraction en fonction de la hauteur de votre Navbar et Footer
+    margin-top: 50px;
+  }
+  
+  .carInfoGrid {
+    margin: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .imageBox {
+    text-align: center;
+  }
+  
+  .carImage {
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
+  }
+  
+  .carInfoCard {
+    background-color: #f5f5f5; // Couleur de fond de la carte
+    border-radius: 8px; // Bordures arrondies pour la carte
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Ombre subtile pour la carte
+    margin: 20px 0;
+    padding: 20px; // Ajout d'un peu d'espacement à l'intérieur de la carte
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .carModel,
+  .carYear,
+  .carMileage,
+  .carPrice,
+  .carFuel,
+  .carTransmission {
+    color: #333; // Couleur des textes
+    margin-bottom: 10px; // Espacement entre chaque élément de texte
+  }
+  
+  .priceValue {
+    color: $color-accent;
+    font-weight: bold;
+  }
+  
+  .contactButton {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .contactButtonBox {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .carInfoContainer {
+      margin: 20px 0;
+    }
+  
+    .carInfoGrid {
+      margin: auto;
+      max-width: 100%;
+    }
+  
+    .carSlider, .carDetails {
+      text-align: center;
+      padding: 10px 0px;
+    }
+  
+    .imageBox, .carImage {
+      max-width: 100%;
+      height: auto;
+    }
+  
+    .contactButtonBox {
+      justify-content: center;
+    }
+  }
+
+  
+  
+
+  
