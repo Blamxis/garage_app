@@ -1,0 +1,36 @@
+@use '../../scss/abstracts/' as *;
+
+.car-card {
+    max-width: 400px; 
+    margin: auto; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease-in-out;
+    background-color: $color-background-dark;
+  
+    &:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+  
+    .MuiCardMedia-root {
+      object-fit: cover;
+    }
+  
+    .MuiCardContent-root {
+      padding: 20px;
+  
+      .MuiTypography-h5 {
+        font-size: 1.5rem; 
+        font-weight: bold; 
+        color: $color-accent; 
+        margin-bottom: 8px;
+      }
+  
+      .MuiTypography-body2 {
+        font-size: 1rem;
+        color: $color-background-dark;
+        line-height: 1.5;
+        font-weight: 700;
+      }
+    }
+  }
+  
