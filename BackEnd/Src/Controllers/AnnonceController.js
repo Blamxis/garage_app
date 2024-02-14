@@ -1,4 +1,4 @@
-const { Annonce, Voiture, Modele } = require("../Models/index");
+const { Annonce, Voiture, Modele, Images } = require("../Models/index");
 
 class AnnonceController {
   static async convertirDateFrancaiseEnSQL(dateFrancaise) {
@@ -8,7 +8,7 @@ class AnnonceController {
 
   static async createAnnonce(req, res) {
     try {
-      const { Nom, Id_voiture, Id_user } = req.body;
+      const { Nom, Id_voiture, Id_user, Carburant, Transmission } = req.body;
 
       // Mise à jour de la date de publication avec la date actuelle
       const datePublication = new Date();
@@ -18,6 +18,8 @@ class AnnonceController {
         Nom,
         Id_voiture,
         Id_user,
+        Carburant,
+        Transmission,
         Date_publication: datePublication,
       });
 
@@ -31,14 +33,22 @@ class AnnonceController {
   static async updateAnnonce(req, res) {
     const { id } = req.params;
     try {
-      const { Id_voiture, Id_user, IsVisible } = req.body;
+      const { Id_voiture, Id_user, IsVisible, Carburant, Transmission } =
+        req.body;
 
       // Update de la date de publication avec la date actuelle
       const datePublication = new Date();
 
       // Update de l'annonce
       const [updated] = await Annonce.update(
-        { Id_voiture, Id_user, Date_publication: datePublication, IsVisible },
+        {
+          Id_voiture,
+          Id_user,
+          Date_publication: datePublication,
+          IsVisible,
+          Carburant,
+          Transmission,
+        },
         { where: { Id_annonces: id } }
       );
 
@@ -54,10 +64,21 @@ class AnnonceController {
     }
   }
 
-  static async getAllAnnonces(_, res) {
+  static async getAllAnnonces(req, res) {
+    const includeInvisible = req.query.includeInvisible === 'true';
     try {
+      let whereClause = {};
+      if (!includeInvisible) {
+        whereClause.IsVisible = true;
+      }
       const annonces = await Annonce.findAll({
-        include: [{ model: Voiture, include: [Modele] }]
+        where: whereClause,
+        include: [
+          {
+            model: Voiture,
+            include: [{ model: Modele }, { model: Images }],
+          },
+        ],
       });
       if (annonces.length === 0) {
         return res.status(200).json({ message: "Aucune annonce pour le moment" });
@@ -71,17 +92,31 @@ class AnnonceController {
 
   static async getAnnonceById(req, res) {
     const { id } = req.params;
+    const includeInvisible = req.query.includeInvisible === 'true';
     try {
-      const annonce = await Annonce.findByPk(id);
-      if (!annonce) {
-        return res.status(404).json({ message: "Annonce non trouvée" });
+      const annonce = await Annonce.findByPk(id, {
+        include: [
+          {
+            model: Voiture,
+            include: [
+              { model: Modele },
+              { model: Images }
+            ]
+          }
+        ]
+      });
+  
+      if (!annonce || (!annonce.IsVisible && !includeInvisible)) {
+        return res.status(404).json({ message: "Annonce non trouvée ou non visible" });
       }
+  
       res.status(200).json(annonce);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
+  
 
   static async deleteAnnonce(req, res) {
     const { id } = req.params;
