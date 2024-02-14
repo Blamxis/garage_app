@@ -25,10 +25,10 @@ const FormContact = () => {
     setIsLoading(true);
 
     try {
-      const apiURL = import.meta.env.VITE_API_URL; // Assurez-vous d'avoir défini votre variable d'environnement
+      const apiURL = import.meta.env.VITE_API_URL;
       const response = await axios.post(`${apiURL}/messages`, {
         ...formData,
-        Type: 'contact', // Le type est statique car c'est un formulaire de contact
+        Type: 'contact',
       });
 
       if (response.status === 201) {

@@ -255,16 +255,20 @@ const EnhancedTable = ({
     setSelectedFiles([]);
     setCurrentItemIdForUpload(null);
   };
-
+  
   return (
     <Box sx={{ width: "100%" }}>
       {/* Bouton Ajouter visible en tout temps au-dessus du contenu */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
-        <Button startIcon={<AddIcon />} onClick={handleAddDialogOpen} color="warning">
+        <Button
+          startIcon={<AddIcon />}
+          onClick={handleAddDialogOpen}
+          color="warning"
+        >
           Ajouter
         </Button>
       </Box>
-  
+
       <Paper sx={{ mb: 2 }}>
         {isMobile ? (
           // Affichage mobile : DataRowCard pour chaque élément de données
@@ -290,7 +294,8 @@ const EnhancedTable = ({
               <TableBody>
                 {data.length > 0 ? (
                   data.map((row) => {
-                    const isItemSelected = selected.indexOf(row[idField]) !== -1;
+                    const isItemSelected =
+                      selected.indexOf(row[idField]) !== -1;
                     return (
                       <TableRow
                         hover
@@ -301,25 +306,43 @@ const EnhancedTable = ({
                         selected={isItemSelected}
                         className="custom-table-row"
                       >
-                        <TableCell padding="checkbox" className="custom-table-cell">
+                        <TableCell
+                          padding="checkbox"
+                          className="custom-table-cell"
+                        >
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={(event) => handleClick(event, row[idField])}
+                            onChange={(event) =>
+                              handleClick(event, row[idField])
+                            }
                           />
                         </TableCell>
                         {columns.map((column) => (
-                          <TableCell key={column.id} className="custom-table-cell">
-                            {column.render ? column.render(row) : row[column.id] ?? "N/A"}
+                          <TableCell
+                            key={column.id}
+                            className="custom-table-cell"
+                          >
+                            {column.id === "Id_voiture"
+                              ? row.voiture?.Modele?.Nom || "Modèle inconnu"
+                              : column.render
+                              ? column.render(row)
+                              : row[column.id] ?? "N/A"}
                           </TableCell>
                         ))}
                         <TableCell className="custom-table-cell">
                           <IconButton onClick={() => handleEditDialogOpen(row)}>
                             <EditIcon />
                           </IconButton>
-                          <IconButton onClick={() => handleDeleteDialogOpen(row[idField])} color="error">
+                          <IconButton
+                            onClick={() => handleDeleteDialogOpen(row[idField])}
+                            color="error"
+                          >
                             <DeleteIcon />
                           </IconButton>
-                          <IconButton onClick={() => handleUploadDialogOpen(row[idField])} color="primary">
+                          <IconButton
+                            onClick={() => handleUploadDialogOpen(row[idField])}
+                            color="primary"
+                          >
                             <PhotoCameraIcon />
                           </IconButton>
                         </TableCell>
@@ -385,7 +408,8 @@ const EnhancedTable = ({
                         key={voiture.Id_voiture}
                         value={voiture.Id_voiture}
                       >
-                        {voiture.Modele || "Modèle inconnu"}
+                        {voiture.Modele ? voiture.Modele.Nom : "Modèle inconnu"}{" "}
+                        {voiture.Nom}
                       </MenuItem>
                     ))}
                   </Select>
@@ -423,90 +447,111 @@ const EnhancedTable = ({
       {/* Edit Dialog */}
 
       <Dialog open={isEditDialogOpen} onClose={handleEditDialogClose}>
-  <DialogContent>
-    {columns.map((column) => {
-      if (column.id === "ModelNom") {
-        // Sélection d'un modèle (comme avant)
-        return (
-          <FormControl key={column.id} fullWidth margin="normal">
-            <InputLabel>{column.label}</InputLabel>
-            <Select
-              label={column.label}
-              value={currentData[column.id] || ""}
-              onChange={(e) =>
-                setCurrentData({
-                  ...currentData,
-                  [column.id]: e.target.value,
-                })
-              }
-            >
-              <MenuItem value="" disabled>
-                Sélectionnez un modèle
-              </MenuItem>
-              {modelList.map((model) => (
-                <MenuItem key={model.id} value={model.nom}>
-                  {model.nom}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        );
-      } else if (column.id === "Id_voiture") {
-        // Sélection d'une voiture avec affichage du modèle associé
-        return (
-          <FormControl key="Id_voiture" fullWidth margin="normal">
-            <InputLabel>Voiture</InputLabel>
-            <Select
-              label="Voiture"
-              value={currentData[column.id] || ""}
-              onChange={(e) =>
-                setCurrentData({
-                  ...currentData,
-                  [column.id]: e.target.value,
-                })
-              }
-            >
-              <MenuItem value="" disabled>
-                Sélectionnez une voiture
-              </MenuItem>
-              {voitureList.map((voiture) => (
-                <MenuItem key={voiture.Id_voiture} value={voiture.Id_voiture}>
-                  {voiture.Modele || "Modèle inconnu"} {voiture.nom}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        );
-      } else {
-        
-        return (
-          <TextField
-            key={column.id}
-            label={column.label}
-            value={currentData[column.id] || ""}
-            onChange={(e) =>
-              setCurrentData({
-                ...currentData,
-                [column.id]: e.target.value,
-              })
+        <DialogContent>
+          {columns.map((column) => {
+            // Condition spécifique pour le champ Id_user
+            if (column.id === "Id_user") {
+              return (
+                <TextField
+                  key={column.id}
+                  label={column.label}
+                  // Utilisez defaultValue ou value pour afficher la valeur actuelle
+                  defaultValue={userId}
+                  // Rendez le champ en lecture seule
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                />
+              );
+            } else if (column.id === "Id_voiture") {
+              // Votre logique existante pour le champ Id_voiture
+              return (
+                <FormControl key="Id_voiture" fullWidth margin="normal">
+                  <InputLabel>Voiture</InputLabel>
+                  <Select
+                    label="Voiture"
+                    value={currentData[column.id] || ""}
+                    onChange={(e) =>
+                      setCurrentData({
+                        ...currentData,
+                        [column.id]: e.target.value,
+                      })
+                    }
+                  >
+                    <MenuItem value="" disabled>
+                      Sélectionnez une voiture
+                    </MenuItem>
+                    {voitureList.map((voiture) => (
+                      <MenuItem
+                        key={voiture.Id_voiture}
+                        value={voiture.Id_voiture}
+                      >
+                        {voiture.Modele ? voiture.Modele.Nom : "Modèle inconnu"}{" "}
+                        {voiture.Nom}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              );
+            } else if (column.id === "ModelNom") {
+              // Votre logique existante pour le champ ModelNom
+              return (
+                <FormControl key={column.id} fullWidth margin="normal">
+                  <InputLabel>{column.label}</InputLabel>
+                  <Select
+                    label={column.label}
+                    value={currentData[column.id] || ""}
+                    onChange={(e) =>
+                      setCurrentData({
+                        ...currentData,
+                        [column.id]: e.target.value,
+                      })
+                    }
+                  >
+                    <MenuItem value="" disabled>
+                      Sélectionnez un modèle
+                    </MenuItem>
+                    {modelList.map((model) => (
+                      <MenuItem key={model.id} value={model.nom}>
+                        {model.nom}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              );
+            } else {
+              // Logique pour les autres champs
+              return (
+                <TextField
+                  key={column.id}
+                  label={column.label}
+                  value={currentData[column.id] || ""}
+                  onChange={(e) =>
+                    setCurrentData({
+                      ...currentData,
+                      [column.id]: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                />
+              );
             }
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          />
-        );
-      }
-    })}
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleEditDialogClose} color="error">
-      Annuler
-    </Button>
-    <Button onClick={handleEditDialogSave} color="success">
-      Enregistrer
-    </Button>
-  </DialogActions>
-</Dialog>
+          })}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleEditDialogClose} color="error">
+            Annuler
+          </Button>
+          <Button onClick={handleEditDialogSave} color="success">
+            Enregistrer
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/*Delete Dialog*/}
 
