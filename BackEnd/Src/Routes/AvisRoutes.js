@@ -10,8 +10,8 @@ class AvisRoutes {
     }
 
     initRoutes() {
-        // Route pour créer un avis, disponible pour tout utilisateur authentifié
-        this.router.post('/avis', AuthMiddleware.authenticate, AvisController.createAvis);
+        // Route pour créer un avis, disponible pour tout utilisateur
+        this.router.post('/avis', AvisController.createAvis);
 
         // Route pour récupérer les avis approuvés, disponible sans authentification spécifique
         this.router.get('/avis/approved', AvisController.getAllApprovedAvis);
