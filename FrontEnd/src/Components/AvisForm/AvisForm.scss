@@ -1,0 +1,68 @@
+@use '../../scss/abstracts/' as *;
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: $color-background-dark;
+
+  .form-field {
+    margin-bottom: 16px;
+    width: calc(100% - 32px);
+    background-color: $color-background-dark;
+
+    .MuiInputBase-root {
+      background-color: $color-secondary;
+      border-radius: 4px;
+    }
+    
+    .MuiOutlinedInput-root {
+      &:hover .MuiOutlinedInput-notchedOutline {
+        border-color: $color-secondary;
+      }
+      &.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: $color-secondary;
+        border-width: 2px;
+      }
+    }
+    
+    .MuiInputLabel-root {
+      &.Mui-focused {
+        color: $color-accent;
+      }
+    }
+    
+    &:last-of-type {
+      margin-bottom: 24px;
+    }
+  }
+
+  .rating {
+    margin: 20px 0;
+    font-size: 3rem;
+
+    .MuiRating-iconFilled {
+      color: $color-accent;
+    }
+    .MuiRating-iconHover {
+      color: $color-accent;
+    }
+  }
+
+  .submit-button {
+    background-color: $color-accent;
+    color: $color-secondary;
+    padding: 8px 16px;
+    font-size: 1rem;
+    border-radius: 4px;
+    &:hover {
+      background-color: darken($color-secondary, 15%);
+      color: $color-accent;
+    }
+  }
+}
