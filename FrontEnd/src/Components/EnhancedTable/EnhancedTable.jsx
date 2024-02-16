@@ -62,30 +62,33 @@ const DataRowCard = ({
   onSelect,
   isSelected,
   idField,
-}) => (
-  <div className="data-row-card">
-    <div className="data-row-card-content">
-      {columns.map((column) => (
-        <div key={column.id} className="data-row-card-item">
-          <strong>{column.label}:</strong> {row[column.id]}
-        </div>
-      ))}
+}) => {
+  
+  return (
+    <div className="data-row-card">
+      <div className="data-row-card-content">
+        {columns.map((column) => (
+          <div key={column.id} className="data-row-card-item">
+            <strong>{column.label}:</strong> {row[column.id]}
+          </div>
+        ))}
+      </div>
+      <div className="data-row-card-actions">
+        <Checkbox
+          checked={isSelected}
+          onChange={() => onSelect(row[idField])}
+          inputProps={{ "aria-label": `select row ${row[idField]}` }}
+        />
+        <IconButton color="primary" onClick={() => onEdit(row)}>
+          <EditIcon />
+        </IconButton>
+        <IconButton color="error" onClick={() => onDelete([row[idField]])}>
+          <DeleteIcon />
+        </IconButton>
+      </div>
     </div>
-    <div className="data-row-card-actions">
-      <Checkbox
-        checked={isSelected}
-        onChange={() => onSelect(row[idField])}
-        inputProps={{ "aria-label": `select row ${row[idField]}` }}
-      />
-      <IconButton color="primary" onClick={() => onEdit(row)}>
-        <EditIcon />
-      </IconButton>
-      <IconButton color="error" onClick={() => onDelete([row[idField]])}>
-        <DeleteIcon />
-      </IconButton>
-    </div>
-  </div>
-);
+  );
+};
 
 const EnhancedTable = ({
   columns,
@@ -98,6 +101,7 @@ const EnhancedTable = ({
   idField,
   userId,
   voitureList,
+  showUploadIcon,
 }) => {
   const [selected, setSelected] = useState([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -113,7 +117,7 @@ const EnhancedTable = ({
   const [error, setError] = useState("");
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Gestionnaire pour la sélection de toutes les lignes
   const handleSelectAllClick = (event) => {
@@ -258,7 +262,6 @@ const EnhancedTable = ({
   
   return (
     <Box sx={{ width: "100%" }}>
-      {/* Bouton Ajouter visible en tout temps au-dessus du contenu */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
         <Button
           startIcon={<AddIcon />}
@@ -339,12 +342,14 @@ const EnhancedTable = ({
                           >
                             <DeleteIcon />
                           </IconButton>
-                          <IconButton
+                          {showUploadIcon && (
+                            <IconButton
                             onClick={() => handleUploadDialogOpen(row[idField])}
                             color="primary"
                           >
                             <PhotoCameraIcon />
                           </IconButton>
+                          )}
                         </TableCell>
                       </TableRow>
                     );
@@ -616,6 +621,22 @@ const EnhancedTable = ({
   );
 };
 
+
+DataRowCard.propTypes = {
+  row: PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.shape({
+      Id_images: PropTypes.number.isRequired,
+      Url: PropTypes.string.isRequired,
+    })),
+  }).isRequired,
+  columns: PropTypes.array.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  idField: PropTypes.string.isRequired,
+};
+
 EnhancedTable.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -627,6 +648,7 @@ EnhancedTable.propTypes = {
   modelList: PropTypes.array,
   userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   voitureList: PropTypes.array,
+  showUploadIcon: PropTypes.bool,
 };
 
 export default EnhancedTable;
