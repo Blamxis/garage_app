@@ -455,6 +455,41 @@ li {
     }
   }
 
+  // Style page Avis
+
+  .page-avis {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 2rem;
+      color: $color-accent;
+    }
+  
+    .footer-container {
+      margin-top: auto;
+    }
+  
+    .feedback-form {
+      width: 50%; 
+      max-width: 1200px; 
+      margin: auto;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  
+      @media (max-width: 768px) {
+        width: 95%; // Ajustement pour mobile
+        max-width: none; // Annule la largeur maximale sur mobile pour permettre au formulaire de s'étendre
+      }
+    }
+  }
+  
+  
+
+
   
   
 
