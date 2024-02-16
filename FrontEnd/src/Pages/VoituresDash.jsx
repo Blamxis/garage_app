@@ -75,6 +75,7 @@ function VoitureDash() {
 
       fetchData();
     }
+    
   }, [isAuthenticated]);
 
   // Fonction pour gérer la sélection de toutes les voitures
@@ -183,7 +184,7 @@ function VoitureDash() {
           (voiture) => !selectedVoitureIds.includes(voiture.Id_voiture)
         );
         setVoituresData(updatedData);
-        // Mettre à jour l'état des éléments sélectionnés pour refléter les suppressions
+        
         setSelected(selected.filter((id) => !selectedVoitureIds.includes(id)));
       })
       .catch((error) => {
@@ -262,10 +263,10 @@ function VoitureDash() {
                       />
                     );
                   }
-
+              
                   return "Pas d'illustrations actuellement";
                 },
-              },
+              }
             ]}
             data={voituresData}
             onAdd={handleAddVoiture}
@@ -276,6 +277,7 @@ function VoitureDash() {
             onSelectAllClick={handleSelectAllClick}
             numSelected={selected.length}
             modelList={modeleOptions}
+            showUploadIcon={true}
           />
         </div>
       )}
