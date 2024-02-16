@@ -49,7 +49,6 @@ const CarCard = ({ annonce, onClick }) => {
         <CardMedia
           component="img"
           height="280"
-          image="URL_to_default_image" // Remplacez par l'URL de votre image par défaut
           alt="Image par défaut"
         />
       )}
