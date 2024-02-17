@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/': {
-        target: 'http://192.168.1.95:8888',
+        target: 'http://blamxis.alwaysdata.net',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
