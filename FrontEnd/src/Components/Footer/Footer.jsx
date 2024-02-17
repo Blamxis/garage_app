@@ -1,4 +1,5 @@
 import './Footer.scss';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -6,11 +7,13 @@ const Footer = () => {
         <div className="container">
           <div className="footer-content">
             <div className="left">Groupe Parrot &copy; 2024</div>
-            <div className="right">Mentions Légales</div>
+            <div className="right">
+              <Link to="/mentions-legales" className="footer-link">Mentions Légales</Link>
+            </div>
           </div>
         </div>
       </footer>
     );
-  };
-  
-  export default Footer;
+};
+
+export default Footer;
