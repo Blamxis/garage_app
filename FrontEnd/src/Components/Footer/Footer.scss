@@ -1,35 +1,39 @@
 @use '../../scss/abstracts/' as *;
 
 .footer {
-    background-color: $color-background-dark;
-    color: $color-text-light;
-    padding: 10px 0;
-    margin-top: auto;
-  
-    .container {
+  background-color: $color-background-dark;
+  color: $color-text-light;
+  padding: 20px 0;
+  margin-top: auto;
+
+  .container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+
+    .footer-content {
+      gap: 850px; 
+      max-width: $content-max-width;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-  
-      .footer-content {
-        max-width: $content-max-width;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-  
-        .left {
-          text-align: left;
-        }
-  
-        .right {
-          text-align: right;
-  
-          a {
-            color: $color-text-light;
-            text-decoration: none;
-          }
+
+      .left, .right {
+        text-align: center;
+      }
+
+      .right a {
+        color: $color-text-light;
+        text-decoration: none;
+        padding: 5px 10px; 
+        border-radius: 5px; 
+
+        &:hover {
+          background-color: $color-accent; 
+          color: $color-background-dark;
         }
       }
     }
   }
+}
