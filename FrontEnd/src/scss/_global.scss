@@ -481,11 +481,35 @@ li {
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
   
       @media (max-width: 768px) {
-        width: 95%; // Ajustement pour mobile
-        max-width: none; // Annule la largeur maximale sur mobile pour permettre au formulaire de s'étendre
+        width: 95%; 
+        max-width: none;
       }
     }
   }
+
+  // LegalMentions.scss
+
+.main-content {
+  padding: 20px;
+  background-color: $color-secondary; 
+  min-height: 100vh; 
+
+  h1, h2 {
+    color: $color-accent; 
+  }
+
+  p {
+    margin-bottom: 15px; 
+    line-height: 1.6; 
+    color: $color-background-dark; 
+  }
+
+  strong {
+    color: #000; 
+  }
+}
+
+
   
   
 
