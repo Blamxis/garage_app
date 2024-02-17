@@ -39,7 +39,7 @@ class Server {
     configMiddlewares() {
         
         this.app.use(cors({
-            origin: 'https://garage-app-lyart.vercel.app/',
+            origin: 'https://garage-app-lyart.vercel.app',
             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
             credentials: true,
         })); // Activation de CORS
