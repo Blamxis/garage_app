@@ -373,7 +373,7 @@ li {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: calc(100vh - 189px); // Ajustez la soustraction en fonction de la hauteur de votre Navbar et Footer
+    min-height: calc(100vh - 189px);
     margin-top: 50px;
   }
   
@@ -394,11 +394,11 @@ li {
   }
   
   .carInfoCard {
-    background-color: #f5f5f5; // Couleur de fond de la carte
-    border-radius: 8px; // Bordures arrondies pour la carte
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Ombre subtile pour la carte
+    background-color: #f5f5f5;
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     margin: 20px 0;
-    padding: 20px; // Ajout d'un peu d'espacement à l'intérieur de la carte
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -410,8 +410,8 @@ li {
   .carPrice,
   .carFuel,
   .carTransmission {
-    color: #333; // Couleur des textes
-    margin-bottom: 10px; // Espacement entre chaque élément de texte
+    color: #333;
+    margin-bottom: 10px;
   }
   
   .priceValue {
