@@ -41,6 +41,7 @@ class Server {
         this.app.use(cors({
             origin: 'https://garage-app-lyart.vercel.app',
             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+            allowedHeaders: ['Content-type', 'Authorization'],
             credentials: true,
         })); // Activation de CORS
         this.app.use(helmet()); // Sécurisation des en-têtes HTTP
