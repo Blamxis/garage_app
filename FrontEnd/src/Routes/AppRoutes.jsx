@@ -26,6 +26,7 @@ import OptionsEquipements from '../Pages/OptionsDash';
 import Messages from '../Pages/MessagesDash';
 import AvisClients from '../Pages/AvisDash';
 import HorairesGarage from '../Pages/HorairesDash';
+import LegalMentions from '../Pages/LegalMentions';
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -64,6 +65,7 @@ const AppRoutes = () => {
         <Route path="messages" element={<Messages />} />
         <Route path="avis-clients" element={<AvisClients />} />
       </Route>
+      <Route path="/mentions-legales" element={<LegalMentions />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
