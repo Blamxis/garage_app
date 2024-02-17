@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import EnhancedTable from "../Components/EnhancedTable/EnhancedTable";
 import axios from "axios";
 import { useAuth } from "../Context/AuthContext";
+import { Helmet } from 'react-helmet-async';
 
 function ServicesDash() {
   const { isAuthenticated } = useAuth();
@@ -83,8 +84,27 @@ function ServicesDash() {
 
   const idField = "Id_serv";
 
+  const pageTitle = "Gestion des Services - Votre Entreprise";
+  const pageDescription = "Gérez les services proposés par votre entreprise de manière efficace et organisée.";
+
   return (
     <div>
+      <Helmet>
+        {/* Métadonnées standards */}
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+      </Helmet>
+
       {isAuthenticated && (
         <div>
           <h1>Gestion des Services</h1>

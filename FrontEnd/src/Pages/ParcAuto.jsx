@@ -10,6 +10,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Footer from '../Components/Footer/Footer';
+import { Helmet } from 'react-helmet-async';
 
 const ParcAuto = () => {
   const [annonces, setAnnonces] = useState([]);
@@ -72,8 +73,27 @@ const ParcAuto = () => {
     setFilteredAnnonces(filtered);
   };
 
+  const pageTitle = "Véhicules d'Occasion | PAT Garage";
+  const pageDescription = "Découvrez notre sélection de véhicules d'occasion de qualité. Trouvez le modèle qui vous convient.";
+
   return (
     <div className="page-container">
+      <Helmet>
+        {/* Métadonnées standards */}
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+      </Helmet>
+
       <CustomNavbar />
       <div className="parc-auto-container">
         <h1 className="parc-auto-title">- VÉHICULES D&apos;OCCASION -</h1>

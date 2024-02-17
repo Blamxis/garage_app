@@ -3,6 +3,7 @@ import axios from "axios";
 import CustomNavbar from "../Components/NavBar/Navbar";
 import { useParams } from "react-router-dom";
 import ContactForm from "../Components/CarInfosComp/ContactCarForm";
+import { Helmet } from "react-helmet-async";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -63,8 +64,36 @@ const CarInfos = () => {
     );
   }
 
+  const pageTitle = annonce
+    ? `Détails de ${annonce.Voiture.Modele.Nom}`
+    : "Chargement...";
+  const pageDescription = annonce
+    ? `Découvrez les détails de ${annonce.Voiture.Modele.Nom}, année ${annonce.Voiture.Annee}.`
+    : "Détails de l'annonce en cours de chargement...";
+  const ogImageUrl = annonce
+    ? `${apiURL}${annonce.Voiture.Images[0].Url}`
+    : "https://www.votre-site-web.com/default-image.jpg";
+
   return (
     <>
+      <Helmet>
+        {/* Métadonnées standards */}
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={ogImageUrl} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={ogImageUrl} />
+      </Helmet>
+
       <CustomNavbar />
       <Container maxWidth="lg" className="carInfoContainer">
         <Grid container spacing={4} alignItems="center" className="carInfoGrid">

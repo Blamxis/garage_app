@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import EnhancedTable from "../Components/EnhancedTable/EnhancedTable";
 import axios from "axios";
 import { useAuth } from "../Context/AuthContext";
-import { Switch } from '@mui/material';
+import { Switch } from "@mui/material";
+import { Helmet } from "react-helmet-async";
 
 function AnnoncesDash() {
   const { isAuthenticated, userId } = useAuth();
@@ -22,12 +23,18 @@ function AnnoncesDash() {
 
   const fetchAnnoncesAndVoitures = async () => {
     try {
-      const annoncesResponse = await axios.get(`${apiURL}/annonces?includeInvisible=true`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
-      const voituresResponse = await axios.get(`${apiURL}/voitures?include=model`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const annoncesResponse = await axios.get(
+        `${apiURL}/annonces?includeInvisible=true`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      const voituresResponse = await axios.get(
+        `${apiURL}/voitures?include=model`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
 
       setAnnoncesData(annoncesResponse.data || []);
       setAllVoitures(voituresResponse.data || []);
@@ -77,7 +84,7 @@ function AnnoncesDash() {
           })
         )
       );
-      fetchAnnoncesAndVoitures(); 
+      fetchAnnoncesAndVoitures();
     } catch (error) {
       console.error("Erreur lors de la suppression de l'annonce:", error);
     }
@@ -105,56 +112,83 @@ function AnnoncesDash() {
     }
   };
 
+  const pageTitle = "Dashboard - Gestion des Annonces";
+  const pageDescription =
+    "Administrez les annonces de voitures facilement depuis le tableau de bord.";
+
   return (
-    <div>
-      {isAuthenticated && (
-        <div>
-          <h1>Gestion des Annonces</h1>
-          <EnhancedTable
-            columns={[
-              { id: "Nom", label: "Nom" },
-              { id: "Date_publication", label: "Date de publication" },
-              {
-                id: "Id_voiture",
-                label: "Voiture",
-                render: (row) => {
-                  const voiture = allVoitures.find((v) => v.Id_voiture === row.Id_voiture);
-                  return voiture ? voiture.Modele.Nom : "Modèle inconnu";
+    <>
+      <Helmet>
+        {/* Métadonnées standards */}
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        
+      </Helmet>
+      <div>
+        {isAuthenticated && (
+          <div>
+            <h1>Gestion des Annonces</h1>
+            <EnhancedTable
+              columns={[
+                { id: "Nom", label: "Nom" },
+                { id: "Date_publication", label: "Date de publication" },
+                {
+                  id: "Id_voiture",
+                  label: "Voiture",
+                  render: (row) => {
+                    const voiture = allVoitures.find(
+                      (v) => v.Id_voiture === row.Id_voiture
+                    );
+                    return voiture ? voiture.Modele.Nom : "Modèle inconnu";
+                  },
                 },
-              },
-              { id: "Carburant", label: "Carburant" },
-              { id: "Transmission", label: "Transmission" },
-              {
-                id: "Id_user",
-                label: "Utilisateur",
-                defaultValue: userId,
-                readOnly: true,
-              },
-              { 
-                id: "IsVisible", 
-                label: "Visible", 
-                render: (row) => (
-                  <Switch
-                    checked={row.IsVisible}
-                    onChange={() => handleVisibilityChange(row.Id_annonces, row.IsVisible)}
-                  />
-                ),
-              }
-            ]}
-            data={annoncesData}
-            onAdd={handleAddAnnonce}
-            onEdit={handleEditAnnonce}
-            onDelete={handleDeleteAnnonce}
-            idField="Id_annonces"
-            onSelectAllClick={handleSelectAllClick}
-            numSelected={selected.length}
-            userId={userId}
-            voitureList={voitureList}
-            allVoitures={allVoitures}
-          />
-        </div>
-      )}
-    </div>
+                { id: "Carburant", label: "Carburant" },
+                { id: "Transmission", label: "Transmission" },
+                {
+                  id: "Id_user",
+                  label: "Utilisateur",
+                  defaultValue: userId,
+                  readOnly: true,
+                },
+                {
+                  id: "IsVisible",
+                  label: "Visible",
+                  render: (row) => (
+                    <Switch
+                      checked={row.IsVisible}
+                      onChange={() =>
+                        handleVisibilityChange(row.Id_annonces, row.IsVisible)
+                      }
+                    />
+                  ),
+                },
+              ]}
+              data={annoncesData}
+              onAdd={handleAddAnnonce}
+              onEdit={handleEditAnnonce}
+              onDelete={handleDeleteAnnonce}
+              idField="Id_annonces"
+              onSelectAllClick={handleSelectAllClick}
+              numSelected={selected.length}
+              userId={userId}
+              voitureList={voitureList}
+              allVoitures={allVoitures}
+            />
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

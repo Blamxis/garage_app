@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import EnhancedTable from "../Components/EnhancedTable/EnhancedTable"; 
 import axios from "axios";
 import { useAuth } from "../Context/AuthContext";
+import { Helmet } from 'react-helmet-async';
 
-
-// Gestion de l'affichage des données dans le dashboard
 
 function UserDash() {
   const { isAuthenticated } = useAuth();
@@ -122,8 +121,27 @@ function UserDash() {
 
   const idField = "Id_user";
 
+  const pageTitle = "Gestion des Utilisateurs - PAT Garage";
+  const pageDescription = "Gérez efficacement les utilisateurs de votre plateforme.";
+
   return (
     <div>
+      <Helmet>
+        {/* Métadonnées standards */}
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+      </Helmet>
+
       {isAuthenticated && (
         <div>
           <h1>GESTION UTILISATEURS</h1>
