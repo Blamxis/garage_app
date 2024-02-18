@@ -10,10 +10,10 @@ import './Navbar.scss';
 function CustomNavbar() {
     const location = useLocation();
     const isLoginPage = location.pathname === '/connexion';
-    const { isAuthenticated, decodedToken } = useAuth(); // Obtenez l'état d'authentification et le token décodé depuis votre contexte
+    const { isAuthenticated, decodedToken } = useAuth();
 
     return (
-        <Navbar expand="lg" className="custom-navbar"> {/* Utilisez la classe CSS personnalisée */}
+        <Navbar expand="lg" className="custom-navbar">
             <Container fluid>
                 <Navbar.Toggle aria-controls="offcanvasNavbar-expand" className="navbar-toggler" />
                 <Navbar.Offcanvas
@@ -58,7 +58,7 @@ function CustomNavbar() {
                 </Navbar.Offcanvas>
                 {!isLoginPage && (
                     <div className="text-right custom-text">
-                        {/* Conditionnellement afficher "Espace Admin" ou "Espace Employé" si l'utilisateur est connecté */}
+                        
                         {isAuthenticated && decodedToken ?  (
                             <Link to={decodedToken.role === 1 ? '/admin/dashboard' : '/employee/dashboard'} className="btn btn-outline-custom">
                                 {decodedToken.role === 1 ? "Espace Administrateur" : "Espace Employé"}
