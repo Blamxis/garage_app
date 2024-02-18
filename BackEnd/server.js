@@ -39,7 +39,7 @@ class Server {
     configMiddlewares() {
         
         this.app.use(cors({
-            origin: 'http://localhost:5173',
+            origin: ['http://localhost:5173', 'https://pat-garage.netlify.app/'],
             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
             credentials: true,
         })); // Activation de CORS
