@@ -29,11 +29,15 @@ const ServiceSelector = ({ serviceType, onServiceSelect }) => {
         {isLoading ? (
           <option>Chargement...</option>
         ) : (
-          services.map(service => (
-            <option key={service.ID_serv} value={service.ID_serv}>
-              {service.Nom}
-            </option>
-          ))
+          Array.isArray(services) && services.length > 0 ? (
+            services.map(service => (
+              <option key={service.ID_serv} value={service.ID_serv}>
+                {service.Nom}
+              </option>
+            ))
+          ) : (
+            <option>Aucun service disponible</option>
+          )
         )}
       </select>
     </div>
@@ -46,4 +50,3 @@ ServiceSelector.propTypes = {
 };
 
 export default ServiceSelector;
-
