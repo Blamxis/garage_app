@@ -48,7 +48,7 @@ const TestimonialsCarousel = () => {
         },
       }}
     >
-      {testimonials.map((testimonial) => (
+      {Array.isArray(testimonials) && testimonials.map((testimonial) => (
         <SwiperSlide key={testimonial.Id_avis}>
           <Testimonial
             name={testimonial.Nom}
