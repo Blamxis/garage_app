@@ -10,7 +10,6 @@ const CarCard = ({ annonce, onClick }) => {
   const sliderRef = useRef();
   const images = Array.isArray(annonce.Voiture.Images) ? annonce.Voiture.Images : [];
 
-
   // Configuration pour le Slider
   const settings = {
     dots: images.length > 1,
