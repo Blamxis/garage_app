@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Rating, Box, Snackbar, Alert } from '@mui/material';
-import './AvisForm.scss'; // Assurez-vous que le chemin d'accès est correct
+import './AvisForm.scss';
 
 const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
