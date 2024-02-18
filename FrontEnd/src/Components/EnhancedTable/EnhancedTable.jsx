@@ -67,7 +67,7 @@ const DataRowCard = ({
   return (
     <div className="data-row-card">
       <div className="data-row-card-content">
-        {columns.map((column) => (
+        {Array.isArray(columns) && columns.map((column) => (
           <div key={column.id} className="data-row-card-item">
             <strong>{column.label}:</strong> {row[column.id]}
           </div>
