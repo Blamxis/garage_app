@@ -14,7 +14,6 @@ const TestimonialsCarousel = () => {
       try {
         const apiURL = import.meta.env.VITE_API_URL;
         const response = await axios.get(`${apiURL}/avis/approved`);
-        console.log("Testimonials Data",response.data);
         setTestimonials(response.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des avis:", error);
