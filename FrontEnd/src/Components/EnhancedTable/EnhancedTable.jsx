@@ -651,4 +651,14 @@ EnhancedTable.propTypes = {
   showUploadIcon: PropTypes.bool,
 };
 
+EnhancedTable.defaultProps = {
+  columns: [],
+  data: [],
+  modelList: [],
+  voitureList: [],
+  onUploadImages: () => {},
+  userId: '',
+  showUploadIcon: false,
+};
+
 export default EnhancedTable;
