@@ -47,7 +47,7 @@ const Horaires = () => {
 
   return (
     <ul className="horaires-list container">
-      {horaires.map((horaire, index) => (
+      {Array.isArray(horaires) && horaires.map((horaire, index) => (
         <li key={`${horaire.Id_horaire}-${index}`} className="left-column">
           {horaire.Jour ? (
             <div>
