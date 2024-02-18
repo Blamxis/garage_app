@@ -50,7 +50,7 @@ const Sidebar = () => {
                     </div>
                 </Link>
                 {
-                    sidebarNav.map((nav, index) => (
+                    Array.isArray(sidebarNav) && sidebarNav.map((nav, index) => (
                         <Link to={nav.link} key={`nav-${index}`} className={`sidebar__menu__item ${activeIndex === index && 'active'}`} onClick={closeSidebar}>
                             <div className="sidebar__menu__item__icon">
                                 {nav.icon}
