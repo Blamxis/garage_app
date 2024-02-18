@@ -26,8 +26,12 @@ function HorairesDash() {
         }),
       ])
         .then(([horairesResponse, joursResponse]) => {
-          setHorairesData(horairesResponse.data);
-          setJoursData(joursResponse.data);
+          setHorairesData(
+            Array.isArray(horairesResponse.data) ? horairesResponse.data : []
+          );
+          setJoursData(
+            Array.isArray(joursResponse.data) ? joursResponse.data : []
+          );
         })
         .catch((error) => {
           console.error("Erreur lors de la récupération des données :", error);

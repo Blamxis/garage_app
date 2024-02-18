@@ -19,7 +19,7 @@ function MessagesDash() {
           headers: { Authorization: `Bearer ${authToken}` },
         })
         .then((response) => {
-          setMessagesData(response.data);
+          setMessagesData(Array.isArray(response.data) ? response.data : []);
         })
         .catch((error) => {
           console.error("Erreur lors de la récupération des messages :", error);

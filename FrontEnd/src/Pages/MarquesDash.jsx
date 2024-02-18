@@ -19,7 +19,7 @@ function MarquesDash() {
           headers: { Authorization: `Bearer ${authToken}` },
         })
         .then((response) => {
-          setMarquesData(response.data);
+          setMarquesData(Array.isArray(response.data) ? response.data : []);
         })
         .catch((error) => {
           console.error("Erreur lors de la récupération des marques :", error);

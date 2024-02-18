@@ -24,7 +24,7 @@ function OptionsDash() {
         headers: { Authorization: `Bearer ${authToken}` },
       })
       .then((response) => {
-        setOptionsData(response.data);
+        setOptionsData(Array.isArray(response.data) ? response.data : []);
       })
       .catch((error) => {
         console.error("Erreur lors de la récupération des options :", error);

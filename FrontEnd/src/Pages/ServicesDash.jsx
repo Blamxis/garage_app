@@ -17,7 +17,7 @@ function ServicesDash() {
       axios.get(`${apiURL}/admin/services`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       }).then(response => {
-        setServicesData(response.data);
+        setServicesData(Array.isArray(response.data) ? response.data : []);
       }).catch(error => {
         console.error("Erreur lors de la récupération des services :", error);
       });

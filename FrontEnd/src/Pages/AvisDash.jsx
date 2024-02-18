@@ -19,7 +19,7 @@ function AvisDash() {
           headers: { Authorization: `Bearer ${authToken}` },
         })
         .then((response) => {
-          setAvisData(response.data);
+          setAvisData(Array.isArray(response.data) ? response.data : []);
         })
         .catch((error) => {
           console.error("Erreur lors de la récupération des avis :", error);

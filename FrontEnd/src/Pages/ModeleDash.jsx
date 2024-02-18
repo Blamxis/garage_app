@@ -19,7 +19,7 @@ function ModeleDash() {
           headers: { Authorization: `Bearer ${authToken}` },
         })
         .then((response) => {
-          setModelesData(response.data);
+          setModelesData(Array.isArray(response.data) ? response.data : []);
         })
         .catch((error) => {
           console.error("Erreur lors de la récupération des modèles :", error);

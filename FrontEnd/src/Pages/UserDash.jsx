@@ -22,7 +22,7 @@ function UserDash() {
           }
         })
         .then((response) => {
-          setUserData(response.data);
+          setUserData(Array.isArray(response.data) ? response.data : []);
         })
         .catch((error) => {
           console.error(
