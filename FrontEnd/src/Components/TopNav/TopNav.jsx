@@ -1,4 +1,4 @@
-import './topNav.scss'
+import './TopNav.scss'
 import { FaBars } from 'react-icons/fa';
 
 const TopNav = () => {
