@@ -36,8 +36,12 @@ function AnnoncesDash() {
         }
       );
 
-      setAnnoncesData(annoncesResponse.data || []);
-      setAllVoitures(voituresResponse.data || []);
+      setAnnoncesData(
+        Array.isArray(annoncesResponse.data) ? annoncesResponse.data : []
+      );
+      setAllVoitures(
+        Array.isArray(voituresResponse.data) ? voituresResponse.data : []
+      );
 
       const voitureIdsUsed = annoncesResponse.data.map((a) => a.Id_voiture);
       const updatedVoitureList = voituresResponse.data.filter(
@@ -127,13 +131,11 @@ function AnnoncesDash() {
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
-        
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDescription} />
-        
       </Helmet>
       <div>
         {isAuthenticated && (
