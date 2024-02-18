@@ -8,7 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 const CarCard = ({ annonce, onClick }) => {
   // Utilisation d'une référence pour accéder aux méthodes du Slider
   const sliderRef = useRef();
-  const images = annonce.Voiture.Images;
+  const images = Array.isArray(annonce.Voiture.Images) ? annonce.Voiture.Images : [];
+
 
   // Configuration pour le Slider
   const settings = {
