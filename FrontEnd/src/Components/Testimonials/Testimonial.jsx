@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 const Testimonial = ({ name, prenom, description, date, rating }) => {
   const renderStars = () => {
-    return [...Array(rating)].map((_, i) => <span key={i}>⭐</span>);
+    return Array.from({ length: rating }, (_, i) => <span key={i}>⭐</span>);
   };
 
   return (
