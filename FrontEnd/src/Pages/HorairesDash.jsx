@@ -66,7 +66,7 @@ function HorairesDash() {
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
 
-      const updatedData = horairesData.map((data) =>
+      const updatedData = Array.isArray(horairesData) && horairesData.map((data) =>
         data.Id_horaire === response.data.Id_horaire ? response.data : data
       );
       setHorairesData(updatedData);
@@ -167,7 +167,7 @@ function HorairesDash() {
 export default HorairesDash;
 
 function associerJoursAvecHoraires(horaires, jours) {
-  return horaires.map((horaire, index) => {
+  return Array.isArray(horaires) && horaires.map((horaire, index) => {
     const jourCorrespondant = jours.find(
       (jour) => jour.Id_jours === horaire.Id_jours
     );

@@ -28,7 +28,7 @@ function AvisDash() {
   }, [isAuthenticated]);
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked && Array.isArray(avisData)) {
       const newSelecteds = avisData.map((n) => n.Id_avis);
       setSelected(newSelecteds);
     } else {
@@ -61,7 +61,7 @@ function AvisDash() {
         headers: { Authorization: `Bearer ${authToken}` },
       })
       .then((response) => {
-        const updatedData = avisData.map((avis) =>
+        const updatedData = Array.isArray(avisData) && avisData.map((avis) =>
           avis.Id_avis === response.data.Id_avis ? response.data : avis
         );
         setAvisData(updatedData);
@@ -76,7 +76,7 @@ function AvisDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem("authToken");
 
-    const deletePromises = selectedAvisIds.map((avisId) =>
+    const deletePromises = Array.isArray(selectedAvisIds) && selectedAvisIds.map((avisId) =>
       axios.delete(`${apiURL}/avis/${avisId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })

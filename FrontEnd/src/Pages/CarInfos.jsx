@@ -99,7 +99,7 @@ const CarInfos = () => {
         <Grid container spacing={4} alignItems="center" className="carInfoGrid">
           <Grid item xs={12} md={6} className="carSlider">
             <Slider {...settings}>
-              {annonce.Voiture.Images.map((img, index) => (
+              {Array.isArray(annonce.Voiture.Images) && annonce.Voiture.Images.map((img, index) => (
                 <Box key={index} className="imageBox">
                   <img
                     src={`${apiURL}${img.Url}`}

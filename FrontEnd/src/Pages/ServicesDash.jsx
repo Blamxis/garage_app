@@ -25,7 +25,7 @@ function ServicesDash() {
   }, [isAuthenticated]);
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked && Array.isArray(servicesData)) {
       const newSelecteds = servicesData.map((n) => n.id);
       setSelected(newSelecteds);
     } else {
@@ -53,7 +53,7 @@ function ServicesDash() {
     axios.put(`${apiURL}/admin/services/${serviceDataToEdit.Id_services}`, serviceDataToEdit, {
       headers: { 'Authorization': `Bearer ${authToken}` }
     }).then(response => {
-      const updatedData = servicesData.map(service =>
+      const updatedData = Array.isArray(servicesData) && servicesData.map(service =>
         service.id === response.data.id ? response.data : service
       );
       setServicesData(updatedData);
@@ -66,7 +66,7 @@ function ServicesDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem('authToken');
 
-    const deletePromises = selectedServiceIds.map(serviceId =>
+    const deletePromises = Array.isArray(selectedServiceIds) && selectedServiceIds.map(serviceId =>
       axios.delete(`${apiURL}/admin/services/${serviceId}`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       })

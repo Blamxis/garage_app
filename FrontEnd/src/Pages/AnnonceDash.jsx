@@ -108,7 +108,7 @@ function AnnoncesDash() {
   };
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked && Array.isArray(annoncesData)) {
       const newSelecteds = annoncesData.map((n) => n.Id_annonces);
       setSelected(newSelecteds);
     } else {

@@ -28,7 +28,7 @@ function MarquesDash() {
   }, [isAuthenticated]);
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked && Array.isArray(marquesData)) {
       const newSelecteds = marquesData.map((n) => n.id);
       setSelected(newSelecteds);
     } else {
@@ -66,7 +66,7 @@ function MarquesDash() {
       )
       .then((response) => {
         console.log("Réponse de la mise à jour :", response);
-        const updatedData = marquesData.map((marque) =>
+        const updatedData = Array.isArray(marquesData) && marquesData.map((marque) =>
           marque.Id_marques === response.data.Id_marques
             ? response.data
             : marque
@@ -82,7 +82,7 @@ function MarquesDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem("authToken");
 
-    const deletePromises = selectedMarqueIds.map((marqueId) =>
+    const deletePromises = Array.isArray(selectedMarqueIds) && selectedMarqueIds.map((marqueId) =>
       axios.delete(`${apiURL}/marques/${marqueId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })

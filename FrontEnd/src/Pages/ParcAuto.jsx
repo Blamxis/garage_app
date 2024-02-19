@@ -130,7 +130,7 @@ const ParcAuto = () => {
           <p>{error}</p>
         ) : filteredAnnonces.length > 0 ? (
           <Grid container spacing={2}>
-            {filteredAnnonces.map(annonce => (
+            {Array.isArray(filteredAnnonces) && filteredAnnonces.map(annonce => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={annonce.Id_annonces}>
                 <CarCard annonce={annonce} onClick={() => handleCardClick(annonce.Id_annonces)} />
               </Grid>

@@ -36,7 +36,7 @@ function UserDash() {
   const [selected, setSelected] = useState([]);
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked && Array.isArray(userData)) {
       const newSelecteds = userData.map((n) => n[idField]);
       setSelected(newSelecteds);
     } else {
@@ -77,7 +77,7 @@ function UserDash() {
         }
       })
       .then((response) => {
-        const updatedData = userData.map((user) =>
+        const updatedData = Array.isArray(userData) && userData.map((user) =>
           user.Id_user === response.data.Id_user ? response.data : user
         );
         setUserData(updatedData);
@@ -96,7 +96,7 @@ function UserDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem('authToken');
 
-    const deletePromises = selectedUserIds.map((userId) =>
+    const deletePromises = Array.isArray(selectedUserIds) && selectedUserIds.map((userId) =>
       axios.delete(`${apiURL}user/admin/users/${userId}`, {
         headers: {
           'Authorization': `Bearer ${authToken}`

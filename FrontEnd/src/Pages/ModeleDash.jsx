@@ -28,7 +28,7 @@ function ModeleDash() {
   }, [isAuthenticated]);
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked && Array.isArray(modelesData)) {
       const newSelecteds = modelesData.map((n) => n.Id_modeles);
       setSelected(newSelecteds);
     } else {
@@ -65,7 +65,7 @@ function ModeleDash() {
         }
       )
       .then((response) => {
-        const updatedData = modelesData.map((modele) =>
+        const updatedData = Array.isArray(modelesData) && modelesData.map((modele) =>
           modele.Id_modeles === response.data.Id_modeles
             ? response.data
             : modele
@@ -81,7 +81,7 @@ function ModeleDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem("authToken");
 
-    const deletePromises = selectedModeleIds.map((modeleId) =>
+    const deletePromises = Array.isArray(selectedModeleIds) && selectedModeleIds.map((modeleId) =>
       axios.delete(`${apiURL}/modeles/${modeleId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })

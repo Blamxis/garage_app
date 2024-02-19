@@ -37,7 +37,7 @@ function VoitureDash() {
             ]);
 
           // Transformation des données des voitures avec les noms de modèle
-          const voituresWithModelNames = voituresResponse.data.map(
+          const voituresWithModelNames = Array.isArray(voituresResponse.data) && voituresResponse.data.map(
             (voiture) => ({
               ...voiture,
               ModelNom: voiture.Modele?.Nom || "Nom du modèle inconnu",
@@ -56,7 +56,7 @@ function VoitureDash() {
           }, {});
 
           // Attribution des images à chaque voiture
-          const voituresWithImages = voituresWithModelNames.map((voiture) => ({
+          const voituresWithImages = Array.isArray(voituresWithModelNames) && voituresWithModelNames.map((voiture) => ({
             ...voiture,
             images: imagesByVoitureId[voiture.Id_voiture] || [],
           }));
@@ -64,7 +64,7 @@ function VoitureDash() {
           // Mise à jour des états avec les données récupérées
           setVoituresData(voituresWithImages);
           setModeleOptions(
-            modelesResponse.data.map((modele) => ({
+            Array.isArray(modelesResponse) && modelesResponse.data.map((modele) => ({
               id: modele.Id_modeles,
               nom: modele.Nom,
             }))
@@ -81,7 +81,7 @@ function VoitureDash() {
 
   // Fonction pour gérer la sélection de toutes les voitures
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked && Array.isArray(voituresData)) {
       const newSelecteds = voituresData.map((n) => n.Id_voiture);
       setSelected(newSelecteds);
     } else {
@@ -154,7 +154,7 @@ function VoitureDash() {
         };
 
         // Mettre à jour l'état avec les données de voiture modifiées
-        const updatedData = voituresData.map((voiture) =>
+        const updatedData = Array.isArray(voituresData) && voituresData.map((voiture) =>
           voiture.Id_voiture === updatedVoiture.Id_voiture
             ? updatedVoiture
             : voiture
@@ -172,7 +172,7 @@ function VoitureDash() {
     const authToken = localStorage.getItem("authToken");
 
     // Itère sur chaque ID de voiture sélectionné pour la suppression
-    const deletePromises = selectedVoitureIds.map((voitureId) =>
+    const deletePromises = Array.isArray(selectedVoitureIds) && selectedVoitureIds.map((voitureId) =>
       axios.delete(`${apiURL}voitures/${voitureId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
@@ -220,7 +220,7 @@ function VoitureDash() {
           ? response.data
           : [response.data];
 
-        const updatedVoitures = voituresData.map((voiture) => {
+        const updatedVoitures = Array.isArray(voituresData) && voituresData.map((voiture) => {
           if (voiture.Id_voiture === voitureId) {
             const updatedImages = [
               ...voiture.images,

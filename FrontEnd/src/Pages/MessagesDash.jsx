@@ -28,7 +28,7 @@ function MessagesDash() {
   }, [isAuthenticated]);
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked && Array.isArray(messagesData)) {
       const newSelecteds = messagesData.map((n) => n.Id_message);
       setSelected(newSelecteds);
     } else {
@@ -81,7 +81,7 @@ function MessagesDash() {
         }
       )
       .then((response) => {
-        const updatedData = messagesData.map((message) =>
+        const updatedData = Array.isArray(messagesData) && messagesData.map((message) =>
           message.Id_messages === response.data.Id_messages
             ? response.data
             : message
@@ -97,7 +97,7 @@ function MessagesDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem("authToken");
 
-    const deletePromises = selectedMessageIds.map((messageId) =>
+    const deletePromises = Array.isArray(selectedMessageIds) && selectedMessageIds.map((messageId) =>
       axios.delete(`${apiURL}/messages/${messageId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })

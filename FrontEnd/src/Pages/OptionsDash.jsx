@@ -33,7 +33,7 @@ function OptionsDash() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = optionsData.map((n) => n.Id_option);
+      const newSelecteds = Array.isArray(optionsData) && optionsData.map((n) => n.Id_option);
       setSelected(newSelecteds);
     } else {
       setSelected([]);
@@ -81,7 +81,7 @@ function OptionsDash() {
     const apiURL = import.meta.env.VITE_API_URL;
     const authToken = localStorage.getItem("authToken");
 
-    const deletePromises = selectedOptionIds.map((optionId) =>
+    const deletePromises = Array.isArray(selectedOptionIds) && selectedOptionIds.map((optionId) =>
       axios.delete(`${apiURL}/equipement-options/${optionId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
