@@ -42,6 +42,7 @@ cd <garage_app>
 ### Configurer l'application Frontend (React.js avec Vite)
 
 1. Allez dans le dossier frontend:
+
 Si vous êtes dans le dossier BackEnd:
     ```bash
     cd ..
