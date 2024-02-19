@@ -99,5 +99,5 @@ ou si vous utilisez yarn:
 yarn dev
 ```
 
-Votre application devrait maintenant être accessible à l'adresse indiquée dans la console (généralement [http://localhost:port](http://localhost:port) pour le frontend et [http://localhost:port](http://localhost:port) pour le backend, sauf configuration différente).
+Votre application devrait maintenant être accessible à l'adresse indiquée dans la console (généralement [http://localhost:5173](http://localhost:5173) pour le frontend et [http://localhost:port](http://localhost:port) pour le backend, sauf configuration différente).
 
