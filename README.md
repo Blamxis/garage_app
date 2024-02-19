@@ -37,7 +37,16 @@ cd <garage_app>
    ```
 3. Configurez les variables d'environnement :
    - Créez un nouveau fichier a la racine du dossier Backend qui s'intitule .env .
-   - Remplissez les valeurs nécessaires (SERVER_PORT, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS, BCRYPT_SALT_ROUND, JWT_SECRET et JWT_DURING).
+   - Remplissez les valeurs nécessaires :
+     - SERVER_PORT= définir un port
+     - DB_HOST=host de votre sgbd
+     - DB_PORT=par default 3306
+     - DB_NAME=nom de votre base de donnée
+     - DB_USER=nom d'utilisateur de vote sgbd
+     - DB_PASS= mot de passe de votre sgbd
+     - BCRYPT_SALT_ROUND= definir a 10
+     - JWT_SECRET=clé complexe pour la sécurité 
+     - JWT_DURING= 1 hour
 
 ### Configurer l'application Frontend (React.js avec Vite)
 
