@@ -34,7 +34,7 @@ const CarCard = ({ annonce, onClick }) => {
     >
       {images.length > 0 ? (
         <Slider ref={sliderRef} {...settings}>
-          {images.map((image, index) => (
+          {Array.isArray(images) && images.map((image, index) => (
             <div key={index}>
               <CardMedia
                 component="img"

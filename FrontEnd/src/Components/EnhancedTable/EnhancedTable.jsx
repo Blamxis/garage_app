@@ -46,7 +46,7 @@ const EnhancedTableHead = ({
           onChange={onSelectAllClick}
         />
       </TableCell>
-      {columns.map((column) => (
+      {Array.isArray(columns) && columns.map((column) => (
         <TableCell key={column.id}>{column.label}</TableCell>
       ))}
       <TableCell>Actions</TableCell>
@@ -121,7 +121,7 @@ const EnhancedTable = ({
 
   // Gestionnaire pour la sélection de toutes les lignes
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked && Array.isArray(data)) {
       const newSelecteds = data.map((n) => n[idField]);
       setSelected(newSelecteds);
       return;
@@ -275,7 +275,7 @@ const EnhancedTable = ({
       <Paper sx={{ mb: 2 }}>
         {isMobile ? (
           // Affichage mobile : DataRowCard pour chaque élément de données
-          data.map((row) => (
+          Array.isArray(data) && data.map((row) => (
             <DataRowCard
               key={row[idField]}
               row={row}
@@ -296,7 +296,7 @@ const EnhancedTable = ({
               />
               <TableBody>
                 {data.length > 0 ? (
-                  data.map((row) => {
+                  Array.isArray(data) && data.map((row) => {
                     const isItemSelected =
                       selected.indexOf(row[idField]) !== -1;
                     return (
@@ -320,7 +320,7 @@ const EnhancedTable = ({
                             }
                           />
                         </TableCell>
-                        {columns.map((column) => (
+                        {Array.isArray(columns) && columns.map((column) => (
                           <TableCell
                             key={column.id}
                             className="custom-table-cell"
@@ -371,7 +371,7 @@ const EnhancedTable = ({
 
       <Dialog open={isAddDialogOpen} onClose={handleAddDialogClose}>
         <DialogContent>
-          {columns.map((column) => {
+          {Array.isArray(columns) && columns.map((column) => {
             if (column.id === "ModelNom") {
               return (
                 <FormControl key={column.id} fullWidth margin="normal">
@@ -386,7 +386,7 @@ const EnhancedTable = ({
                     <MenuItem value="" disabled>
                       Sélectionnez un modèle
                     </MenuItem>
-                    {modelList.map((model) => (
+                    {Array.isArray(modelList) && modelList.map((model) => (
                       <MenuItem key={model.id} value={model.nom}>
                         {model.nom}
                       </MenuItem>
@@ -408,7 +408,7 @@ const EnhancedTable = ({
                     <MenuItem value="" disabled>
                       Sélectionnez une voiture
                     </MenuItem>
-                    {voitureList.map((voiture) => (
+                    {Array.isArray(voitureList) && voitureList.map((voiture) => (
                       <MenuItem
                         key={voiture.Id_voiture}
                         value={voiture.Id_voiture}
@@ -453,7 +453,7 @@ const EnhancedTable = ({
 
       <Dialog open={isEditDialogOpen} onClose={handleEditDialogClose}>
         <DialogContent>
-          {columns.map((column) => {
+          {Array.isArray(columns) && columns.map((column) => {
             // Condition spécifique pour le champ Id_user
             if (column.id === "Id_user") {
               return (
@@ -489,7 +489,7 @@ const EnhancedTable = ({
                     <MenuItem value="" disabled>
                       Sélectionnez une voiture
                     </MenuItem>
-                    {voitureList.map((voiture) => (
+                    {Array.isArray(voitureList) && voitureList.map((voiture) => (
                       <MenuItem
                         key={voiture.Id_voiture}
                         value={voiture.Id_voiture}
@@ -519,7 +519,7 @@ const EnhancedTable = ({
                     <MenuItem value="" disabled>
                       Sélectionnez un modèle
                     </MenuItem>
-                    {modelList.map((model) => (
+                    {Array.isArray(modelList) && modelList.map((model) => (
                       <MenuItem key={model.id} value={model.nom}>
                         {model.nom}
                       </MenuItem>
@@ -632,9 +632,9 @@ DataRowCard.propTypes = {
   columns: PropTypes.array.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  idField: PropTypes.string.isRequired,
+  onSelect: PropTypes.func,
+  isSelected: PropTypes.bool,
+  idField: PropTypes.string,
 };
 
 EnhancedTable.propTypes = {
