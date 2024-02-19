@@ -39,7 +39,7 @@ class Server {
     configMiddlewares() {
         
         this.app.use(cors({
-            origin: 'http://localhost:5173',
+            origin: '*',
             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
             credentials: true,
         })); // Activation de CORS
