@@ -43,7 +43,7 @@ cd <garage_app>
 
 1. Allez dans le dossier frontend:
 
-Si vous êtes dans le dossier BackEnd:
+1.1. Si vous êtes dans le dossier BackEnd:
     ```bash
     cd ..
     ```
