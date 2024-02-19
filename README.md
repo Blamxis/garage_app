@@ -27,45 +27,45 @@ cd <garage_app>
    ```bash
    cd BackEnd
    ```
-2. Installez les dépendances:
+2. Installez les dépendances :
    ```bash
    npm install
    ```
-   ou si vous utilisez yarn:
+   ou si vous utilisez yarn :
    ```bash
    yarn install
    ```
-3. Configurez les variables d'environnement:
+3. Configurez les variables d'environnement :
    - Créez un nouveau fichier a la racine du dossier Backend qui s'intitule .env .
    - Remplissez les valeurs nécessaires (SERVER_PORT, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS, BCRYPT_SALT_ROUND, JWT_SECRET et JWT_DURING).
 
 ### Configurer l'application Frontend (React.js avec Vite)
 
-1. Allez dans le dossier frontend:
+1. Allez dans le dossier frontend :
 
-- Si vous êtes dans le dossier BackEnd:
+- Si vous êtes dans le dossier BackEnd :
     ```bash
     cd ..
     ```
-- Puis pour aller dans le dossier Frontend:
+- Puis pour aller dans le dossier Frontend :
    ```bash
    cd FrontEnd
    ```
-2. Installez les dépendances:
+2. Installez les dépendances :
    ```bash
    npm install
    ```
-   ou si vous utilisez yarn:
+   ou si vous utilisez yarn :
    ```bash
    yarn install
    ```
-3. Configurez les variables d'environnement:
+3. Configurez les variables d'environnement :
     - A la racine du dossier FrontEnd, créez un fichier .env
     - Dans le fichier .env ajouter la variable VITE_API_URL qui prendra en valeur le chemin de votre backend donc en local ce sera http://localhost:port/api/.
 
 ### Base de données
 
-Pour ajouter la base de donnée au projet:
+Pour ajouter la base de donnée au projet :
 
 1. Dans le dossier Documentation, vous trouverez un fichier scriptbdd.sql.
 2. Exécutez le script SQL sur votre système de gestion de base de données pour configurer la structure de la base de données.
@@ -74,13 +74,13 @@ Pour ajouter la base de donnée au projet:
 
 ### Backend
 
-Dans le dossier backend, lancez le serveur avec:
+Dans le dossier backend, lancez le serveur avec :
 
 ```bash
 npm run start
 ```
 
-ou si vous utilisez yarn:
+ou si vous utilisez yarn :
 
 ```bash
 yarn start
@@ -88,13 +88,13 @@ yarn start
 
 ### Frontend
 
-Dans un nouveau terminal, allez dans le dossier frontend et lancez l'application avec:
+Dans un nouveau terminal, allez dans le dossier frontend et lancez l'application avec :
 
 ```bash
 npm run dev
 ```
 
-ou si vous utilisez yarn:
+ou si vous utilisez yarn :
 
 ```bash
 yarn dev
