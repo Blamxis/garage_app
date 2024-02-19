@@ -85,6 +85,9 @@ ou si vous utilisez yarn :
 ```bash
 yarn start
 ```
+Si cela a fonctionné vous devriez avoir un resultat similaire dans votre terminal :
+
+![Exemple reussite backend](Documentation/images/Capture%20d'écran%202024-02-20%20001506.png)
 
 ### Frontend
 
@@ -99,6 +102,10 @@ ou si vous utilisez yarn :
 ```bash
 yarn dev
 ```
+
+Si cela a fonctionné vous devriez avoir un resultat similaire dans votre terminal :
+
+![Exemple reussite frontend](Documentation/images/Capture%20d'écran%202024-02-20%20001444.png)
 
 Votre application devrait maintenant être accessible à l'adresse indiquée dans la console (généralement [http://localhost:5173](http://localhost:5173) pour le frontend et [http://localhost:port](http://localhost:port) pour le backend, sauf configuration différente).
 
