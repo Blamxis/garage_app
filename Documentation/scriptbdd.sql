@@ -1,5 +1,3 @@
-CREATE DATABASE garage_app;
-
 USE garage_app;
 
 CREATE TABLE roles (
@@ -7,7 +5,7 @@ CREATE TABLE roles (
     Nom VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE users (
+CREATE TABLE user (
     Id_user INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     Nom VARCHAR(50) NOT NULL,
     Prenom VARCHAR(50) NOT NULL,
