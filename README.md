@@ -41,7 +41,7 @@ cd <garage_app>
      - SERVER_PORT= 8888 => Cette variable spécifie le port sur lequel le serveur de l'application doit écouter.
      - DB_HOST=# host de votre sgbd, par défaut : localhost
      - DB_PORT=# par défaut 3306
-     - DB_NAME=# nom de votre base de donnée, ici ce sera garage_app comme indiqué dan sle script SQL.
+     - DB_NAME=# nom de votre base de donnée, ici ce sera garage_app comme indiqué dans le script SQL.
      - DB_USER=# nom d'utilisateur de vote sgbd
      - DB_PASS=#  mot de passe de votre sgbd
      - BCRYPT_SALT_ROUND= 10 => Cette variable est spécifique à la sécurité de l'application, en particulier pour le hachage des mots de passe (10 est un équilibre entre sécurité et performance).
