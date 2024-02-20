@@ -122,5 +122,5 @@ Si cela a fonctionné vous devriez avoir un resultat similaire dans votre termin
 
 ![Exemple reussite frontend](Documentation/images/Capture%20d'écran%202024-02-20%20001444.png)
 
-Votre application devrait maintenant être accessible à l'adresse indiquée dans la console (généralement [http://localhost:5173](http://localhost:5173) pour le frontend et [http://localhost:port](http://localhost:port) pour le backend, sauf configuration différente).
+Votre application devrait maintenant être accessible à l'adresse indiquée dans la console (généralement [http://localhost:5173](http://localhost:5173) pour le frontend et [http://localhost:port](http://localhost:8888) pour le backend, sauf configuration différente).
 
