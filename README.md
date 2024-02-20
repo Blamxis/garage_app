@@ -38,15 +38,15 @@ cd <garage_app>
 3. Configurez les variables d'environnement :
    - Créez un nouveau fichier a la racine du dossier Backend qui s'intitule .env .
    - Remplissez les valeurs nécessaires :
-     - SERVER_PORT= définir un port
-     - DB_HOST=host de votre sgbd
-     - DB_PORT=par default 3306
-     - DB_NAME=nom de votre base de donnée
-     - DB_USER=nom d'utilisateur de vote sgbd
-     - DB_PASS= mot de passe de votre sgbd
-     - BCRYPT_SALT_ROUND= definir a 10
-     - JWT_SECRET=clé complexe pour la sécurité 
-     - JWT_DURING= 1 hour
+     - SERVER_PORT= 8888 # => Cette variable spécifie le port sur lequel le serveur de l'application doit écouter.
+     - DB_HOST=# host de votre sgbd, par défaut : localhost
+     - DB_PORT=# par default 3306
+     - DB_NAME=# nom de votre base de donnée, ici ce sera garage_app comme indiqué dan sle script SQL.
+     - DB_USER=# nom d'utilisateur de vote sgbd
+     - DB_PASS=#  mot de passe de votre sgbd
+     - BCRYPT_SALT_ROUND= 10 # => Cette variable est spécifique à la sécurité de l'application, en particulier pour le hachage des mots de passe (10 est un équilibre entre sécurité et performance).
+     - JWT_SECRET=# => Une clé secrète utilisée pour signer et vérifier les JSON Web Tokens (JWT). Cette clé doit être complexe et unique pour garantir la sécurité des tokens. 
+     - JWT_DURING=# => Cette variable définit la durée de validité d'un JWT. Ici, elle est réglée sur "1 hour", ce qui signifie que le token expirera une heure après sa création.
 
 ### Configurer l'application Frontend (React.js avec Vite)
 
@@ -77,7 +77,13 @@ cd <garage_app>
 Pour ajouter la base de donnée au projet :
 
 1. Dans le dossier Documentation, vous trouverez un fichier scriptbdd.sql.
-2. Exécutez le script SQL sur votre système de gestion de base de données pour configurer la structure de la base de données.
+2. Utilisez un outil comme [XAMPP](https://www.apachefriends.org/fr/), [WAMP](https://www.wampserver.com/) ou [MAMP](https://www.mamp.info/en/downloads/) afin de gérer la base de données MySQL.
+3. Ouvrez votre navigateur et accédez à [PhpMyAdmin](http://localhost/phpmyadmin/).
+4. Connectez-vous avce vos identifiants de connexion pour accéder à PhpMyAdmin. (paramètre par defaut : nom utilisateur: root et champ de mot de passe vide).
+5. Créer une nouvelle base de données, en utilisant le même nom que dans la variable DB_NAME, puis cliquez sur le bouton "Créer".
+6. Importer le script SQL, pour ce faire, cliquer sur votre base de donnée dans la sidebar de gauche afin de la séléctionner puis rechercher l'onglet importer dans le panneau supérieur. Sur la page d'importation, vous devrez cliquer sur le bouton parcourir et choisir le fichier "scriptbdd.sql". Une fois selectionné, faites défiler vers le bas et cliquer su rle bouton "Exécuter" afin d'importer le script SQL dans la base de données.
+7. Une fois que l'importation à été faites, vous pouvez vérifier que toutes les tables ont bien été créées. Pour ce faire, cliquez sur le nom de votre base de données dan sle panneau de gauche afin d'afficher les tables.
+8. En suivant ces étapes vous aurez importé la structure nécessaire de votre base de données viale fichier "scriptbdd.sql" dans PhpMyAdmin, et l'application sera prête à utiliser cette base de données pour stocker et récupérer des données.
 
 ## Démarrer l'application
 
