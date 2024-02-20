@@ -81,7 +81,7 @@ Pour ajouter la base de donnée au projet :
 3. Ouvrez votre navigateur et accédez à [PhpMyAdmin](http://localhost/phpmyadmin/).
 4. Connectez-vous avec vos identifiants de connexion pour accéder à PhpMyAdmin. (paramètre par defaut : nom utilisateur: root et champ de mot de passe vide).
 5. Créer une nouvelle base de données, en utilisant le même nom que dans la variable DB_NAME, puis cliquez sur le bouton "Créer".
-6. Importer le script SQL, pour ce faire, cliquer sur votre base de donnée dans la sidebar de gauche afin de la séléctionner puis rechercher l'onglet importer dans le panneau supérieur. Sur la page d'importation, vous devrez cliquer sur le bouton parcourir et choisir le fichier "scriptbdd.sql". Une fois selectionné, faites défiler vers le bas et cliquer su rle bouton "Exécuter" afin d'importer le script SQL dans la base de données.
+6. Importer le script SQL, pour ce faire, cliquer sur votre base de donnée dans la sidebar de gauche afin de la séléctionner puis rechercher l'onglet importer dans le panneau supérieur. Sur la page d'importation, vous devrez cliquer sur le bouton parcourir et choisir le fichier "scriptbdd.sql". Une fois selectionné, faites défiler vers le bas et cliquer sur le bouton "Exécuter" afin d'importer le script SQL dans la base de données.
 7. Une fois que l'importation à été faites, vous pouvez vérifier que toutes les tables ont bien été créées. Pour ce faire, cliquez sur le nom de votre base de données dan sle panneau de gauche afin d'afficher les tables.
 8. En suivant ces étapes vous aurez importé la structure nécessaire de votre base de données viale fichier "scriptbdd.sql" dans PhpMyAdmin, et l'application sera prête à utiliser cette base de données pour stocker et récupérer des données.
 
