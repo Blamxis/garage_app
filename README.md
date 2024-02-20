@@ -38,13 +38,13 @@ cd <garage_app>
 3. Configurez les variables d'environnement :
    - Créez un nouveau fichier a la racine du dossier Backend qui s'intitule .env .
    - Remplissez les valeurs nécessaires :
-     - SERVER_PORT= 8888 => Cette variable spécifie le port sur lequel le serveur de l'application doit écouter.
+     - SERVER_PORT= 8888 # => Cette variable spécifie le port sur lequel le serveur de l'application doit écouter.
      - DB_HOST=# host de votre sgbd, par défaut : localhost
      - DB_PORT=# par défaut 3306
      - DB_NAME=# nom de votre base de donnée, ici ce sera garage_app comme indiqué dans le script SQL.
      - DB_USER=# nom d'utilisateur de vote sgbd
      - DB_PASS=#  mot de passe de votre sgbd
-     - BCRYPT_SALT_ROUND= 10 => Cette variable est spécifique à la sécurité de l'application, en particulier pour le hachage des mots de passe (10 est un équilibre entre sécurité et performance).
+     - BCRYPT_SALT_ROUND= 10 # => Cette variable est spécifique à la sécurité de l'application, en particulier pour le hachage des mots de passe (10 est un équilibre entre sécurité et performance).
      - JWT_SECRET=# => Une clé secrète utilisée pour signer et vérifier les JSON Web Tokens (JWT). Cette clé doit être complexe et unique pour garantir la sécurité des tokens. 
      - JWT_DURING=# => Cette variable définit la durée de validité d'un JWT. Ici, elle est réglée sur "1 hour", ce qui signifie que le token expirera une heure après sa création.
 
